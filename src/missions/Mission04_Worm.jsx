@@ -105,38 +105,40 @@ export default function Mission04_Worm({ onSuccess }) {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 18, alignItems: 'center' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center', width: '100%' }}>
       {/* Заголовок */}
       <div
         style={{
           background: 'rgba(255,255,255,0.95)',
           backdropFilter: 'blur(12px)',
-          borderRadius: 24,
-          padding: 'clamp(16px, 2.5vh, 28px) clamp(24px, 4vw, 48px)',
+          borderRadius: 20,
+          padding: 'clamp(12px, 2vh, 24px) clamp(16px, 3vw, 40px)',
           boxShadow: `0 16px 40px ${ACCENT}35`,
           border: `3px solid ${ACCENT}`,
-          maxWidth: 1000,
+          maxWidth: '100%',
           width: '100%',
           textAlign: 'center',
+          boxSizing: 'border-box',
         }}
       >
-        <h2 style={{ marginBottom: 8, fontSize: 'clamp(1.4rem, 2.8vw, 2rem)', color: '#2A8B4E' }}>
+        <h2 style={{ marginBottom: 8, fontSize: 'clamp(1.2rem, 4.5vw, 1.8rem)', color: '#2A8B4E' }}>
           🐛 Безопасный путь
         </h2>
-        <p style={{ color: 'var(--text-soft)', fontSize: 'clamp(1rem, 1.4vw, 1.2rem)', margin: 0 }}>
+        <p style={{ color: 'var(--text-soft)', fontSize: 'clamp(0.9rem, 3.2vw, 1.1rem)', margin: 0 }}>
           Дойди от <b>«Сайта школы»</b> (Старт) до <b>«Школьной библиотеки»</b> (Финиш).
           Двигайся только по <b>соседним</b> сайтам и не попадись на опасные!
         </p>
       </div>
 
-      {/* Статус */}
+      {/* Статус — компактные плашки */}
       <div
         style={{
           display: 'flex',
-          gap: 12,
+          gap: 6,
           flexWrap: 'wrap',
           justifyContent: 'center',
           alignItems: 'center',
+          padding: '0 8px',
         }}
       >
         <StatusPill color={ACCENT} icon="🟢" label={`Пройдено: ${path.length - 1}`} />
@@ -154,18 +156,18 @@ export default function Mission04_Worm({ onSuccess }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
               style={{
-                maxWidth: 850,
+                maxWidth: '100%',
                 width: '100%',
                 background: 'white',
-                borderLeft: `10px solid ${
+                borderLeft: `8px solid ${
                   message.type === 'safe' || message.type === 'win'
                     ? ACCENT
                     : message.type === 'danger' || message.type === 'fail'
                     ? DANGER
                     : '#4A90E2'
                 }`,
-                borderRadius: 20,
-                padding: '16px 24px',
+                borderRadius: 16,
+                padding: '12px 18px',
                 boxShadow: `0 12px 32px ${
                   message.type === 'danger' || message.type === 'fail'
                     ? 'rgba(232,92,92,0.25)'
@@ -173,10 +175,11 @@ export default function Mission04_Worm({ onSuccess }) {
                     ? 'rgba(74,144,226,0.2)'
                     : 'rgba(76,184,108,0.25)'
                 }`,
-                fontSize: 'clamp(1rem, 1.4vw, 1.2rem)',
+                fontSize: 'clamp(0.9rem, 3vw, 1.1rem)',
                 fontWeight: 600,
                 color: 'var(--text-dark)',
                 textAlign: 'center',
+                boxSizing: 'border-box',
               }}
             >
               {message.text}
@@ -185,14 +188,16 @@ export default function Mission04_Worm({ onSuccess }) {
         )}
       </AnimatePresence>
 
-      {/* Сетка */}
+      {/* Сетка 3×3 */}
       <div
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: 'clamp(10px, 1.5vw, 18px)',
+          gap: 'clamp(6px, 1.5vw, 16px)',
           width: '100%',
-          maxWidth: 950,
+          maxWidth: '100%',
+          padding: '0 4px',
+          boxSizing: 'border-box',
         }}
       >
         {grid.map(site => {
@@ -214,7 +219,7 @@ export default function Mission04_Worm({ onSuccess }) {
             bg = 'linear-gradient(135deg, #E4F7EC, #B5E6C3)'
             borderColor = ACCENT
             shadowColor = 'rgba(76,184,108,0.5)'
-            scale = 1.04
+            scale = 1.03
           } else if (isVisited) {
             bg = 'linear-gradient(135deg, #F0FBF5, #D5EFE0)'
             borderColor = ACCENT
@@ -236,38 +241,40 @@ export default function Mission04_Worm({ onSuccess }) {
             <motion.button
               key={site.id}
               onClick={() => handleClick(site)}
-              whileHover={isClickable ? { y: -6, scale: 1.05 } : {}}
+              whileHover={isClickable ? { y: -4, scale: 1.03 } : {}}
               whileTap={isClickable ? { scale: 0.97 } : {}}
               disabled={!isClickable}
               animate={{ scale }}
               style={{
                 cursor: isClickable ? 'pointer' : 'default',
-                border: `4px solid ${borderColor}`,
-                borderRadius: 20,
+                border: `3px solid ${borderColor}`,
+                borderRadius: 14,
                 background: bg,
-                boxShadow: `0 10px 26px ${shadowColor}`,
-                padding: 'clamp(16px, 2.5vh, 28px) clamp(10px, 2vw, 20px)',
+                boxShadow: `0 6px 16px ${shadowColor}`,
+                padding: 'clamp(6px, 1.5vw, 16px) clamp(4px, 1vw, 12px)',
                 textAlign: 'center',
                 fontFamily: 'inherit',
                 opacity,
                 transition: 'all 0.25s',
                 position: 'relative',
-                minHeight: 'clamp(130px, 17vh, 170px)',
+                minHeight: 'clamp(90px, 14vh, 150px)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 6,
+                gap: 3,
+                boxSizing: 'border-box',
+                overflow: 'hidden',
               }}
             >
               {isStart && (
                 <div
                   style={{
                     position: 'absolute',
-                    top: -12, left: -12,
+                    top: -8, left: -8,
                     background: ACCENT, color: 'white',
-                    fontSize: '0.75rem', fontWeight: 800,
-                    padding: '4px 10px', borderRadius: 8,
+                    fontSize: 'clamp(0.5rem, 1.6vw, 0.7rem)', fontWeight: 800,
+                    padding: '2px 6px', borderRadius: 6,
                     boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
                   }}
                 >
@@ -278,10 +285,10 @@ export default function Mission04_Worm({ onSuccess }) {
                 <div
                   style={{
                     position: 'absolute',
-                    top: -12, right: -12,
+                    top: -8, right: -8,
                     background: '#F5A623', color: 'white',
-                    fontSize: '0.75rem', fontWeight: 800,
-                    padding: '4px 10px', borderRadius: 8,
+                    fontSize: 'clamp(0.5rem, 1.6vw, 0.7rem)', fontWeight: 800,
+                    padding: '2px 6px', borderRadius: 6,
                     boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
                   }}
                 >
@@ -289,24 +296,26 @@ export default function Mission04_Worm({ onSuccess }) {
                 </div>
               )}
 
-              <span style={{ fontSize: 'clamp(2.2rem, 4vw, 3rem)', lineHeight: 1 }}>
+              <span style={{ fontSize: 'clamp(1.5rem, 6vw, 2.6rem)', lineHeight: 1 }}>
                 {site.emoji}
               </span>
               <span
                 style={{
-                  fontSize: 'clamp(0.85rem, 1.1vw, 1rem)',
+                  fontSize: 'clamp(0.6rem, 2.2vw, 0.9rem)',
                   fontWeight: 700,
                   color: 'var(--text-dark)',
-                  lineHeight: 1.25,
+                  lineHeight: 1.15,
                 }}
               >
                 {site.label}
               </span>
               <span
                 style={{
-                  fontSize: 'clamp(0.7rem, 0.9vw, 0.85rem)',
+                  fontSize: 'clamp(0.5rem, 1.8vw, 0.75rem)',
                   color: 'var(--text-soft)',
                   fontFamily: 'monospace',
+                  lineHeight: 1.1,
+                  wordBreak: 'break-all',
                 }}
               >
                 {site.name}
@@ -316,9 +325,9 @@ export default function Mission04_Worm({ onSuccess }) {
                 <div
                   style={{
                     position: 'absolute',
-                    top: -14, left: '50%',
+                    top: -12, left: '50%',
                     transform: 'translateX(-50%)',
-                    fontSize: '1.6rem',
+                    fontSize: 'clamp(1rem, 3vw, 1.4rem)',
                     filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))',
                   }}
                 >
@@ -330,12 +339,13 @@ export default function Mission04_Worm({ onSuccess }) {
                 <div
                   style={{
                     position: 'absolute',
-                    bottom: -12, right: -12,
+                    bottom: -8, right: -8,
                     background: ACCENT, color: 'white',
                     borderRadius: '50%',
-                    width: 32, height: 32,
+                    width: 'clamp(20px, 5vw, 28px)',
+                    height: 'clamp(20px, 5vw, 28px)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '1.1rem', fontWeight: 800,
+                    fontSize: 'clamp(0.7rem, 2vw, 1rem)', fontWeight: 800,
                     boxShadow: '0 4px 12px rgba(76,184,108,0.5)',
                   }}
                 >
@@ -346,12 +356,13 @@ export default function Mission04_Worm({ onSuccess }) {
                 <div
                   style={{
                     position: 'absolute',
-                    bottom: -12, right: -12,
+                    bottom: -8, right: -8,
                     background: DANGER, color: 'white',
                     borderRadius: '50%',
-                    width: 32, height: 32,
+                    width: 'clamp(20px, 5vw, 28px)',
+                    height: 'clamp(20px, 5vw, 28px)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '1.1rem', fontWeight: 800,
+                    fontSize: 'clamp(0.7rem, 2vw, 1rem)', fontWeight: 800,
                     boxShadow: '0 4px 12px rgba(232,92,92,0.5)',
                   }}
                 >
@@ -363,14 +374,14 @@ export default function Mission04_Worm({ onSuccess }) {
         })}
       </div>
 
-      {/* Кнопки */}
-      <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', justifyContent: 'center', marginTop: 4 }}>
+      {/* Кнопки управления */}
+      <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center', marginTop: 4 }}>
         {finished === 'fail' && (
           <Button
             onClick={handleRetry}
             variant="primary"
             className="btn-xl"
-            style={{ background: ACCENT, color: 'white', fontSize: '1.35rem', padding: '18px 42px' }}
+            style={{ background: ACCENT, color: 'white', fontSize: '1.15rem', padding: '14px 32px' }}
           >
             🔄 Попробовать снова
           </Button>
@@ -380,7 +391,7 @@ export default function Mission04_Worm({ onSuccess }) {
             onClick={onSuccess}
             variant="primary"
             className="btn-xl"
-            style={{ background: ACCENT, color: 'white', fontSize: '1.35rem', padding: '18px 42px' }}
+            style={{ background: ACCENT, color: 'white', fontSize: '1.15rem', padding: '14px 32px' }}
           >
             Продолжить →
           </Button>
@@ -395,15 +406,16 @@ function StatusPill({ color, icon, label }) {
     <div
       style={{
         background: 'rgba(255,255,255,0.95)',
-        border: `2.5px solid ${color}`,
+        border: `2px solid ${color}`,
         borderRadius: 999,
-        padding: '8px 18px',
+        padding: '5px 12px',
         display: 'flex',
         alignItems: 'center',
-        gap: 8,
-        fontSize: 'clamp(0.9rem, 1.2vw, 1.05rem)',
+        gap: 5,
+        fontSize: 'clamp(0.72rem, 2.5vw, 0.95rem)',
         fontWeight: 700,
         color: 'var(--text-dark)',
+        whiteSpace: 'nowrap',
       }}
     >
       <span>{icon}</span>

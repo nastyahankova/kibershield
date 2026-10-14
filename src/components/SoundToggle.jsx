@@ -1,11 +1,20 @@
+import { useState, useEffect } from 'react'
 import { useSound } from '../context/SoundContext'
 
-export default function SoundToggle({ position = 'bottom-left' }) {
+export default function SoundToggle({ position = 'bottom-right' }) {
   const { enabled, toggleSound } = useSound()
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 900)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
   const positions = {
-    'bottom-left': { bottom: 16, left: 16 },
-    'bottom-right': { bottom: 16, right: 16 },
+    'bottom-left': { bottom: isMobile ? 80 : 16, left: 16 },
+    'bottom-right': { bottom: isMobile ? 80 : 16, right: 16 },
     'top-right': { top: 22, right: 22 },
   }
 
