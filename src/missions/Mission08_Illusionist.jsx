@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Button from '../components/ui/Button.jsx'
 import { useSound } from '../context/SoundContext.jsx'
@@ -61,6 +61,15 @@ export default function Mission08_Illusionist({ onSuccess }) {
   const [checked, setChecked] = useState(false)
   const { playSuccess, playFail } = useSound()
 
+  const resultRef = useRef(null)
+  useEffect(() => {
+    if (checked && resultRef.current) {
+      setTimeout(() => {
+        resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 250)
+    }
+  }, [checked])
+
   const toggle = (id) => {
     if (checked) return
     setSelected(prev =>
@@ -95,25 +104,38 @@ export default function Mission08_Illusionist({ onSuccess }) {
   const isPerfect = correctlyFound === scamIds.length && wrongFound === 0
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 18, alignItems: 'center' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 18,
+        alignItems: 'center',
+        width: '100%',
+        maxWidth: '100%',
+        overflowX: 'hidden',
+        padding: '0 4px',
+        boxSizing: 'border-box',
+      }}
+    >
       {/* Заголовок */}
       <div
         style={{
           background: 'rgba(255,255,255,0.95)',
           backdropFilter: 'blur(12px)',
           borderRadius: 24,
-          padding: 'clamp(16px, 2.5vh, 28px) clamp(24px, 4vw, 48px)',
+          padding: 'clamp(16px, 2.5vh, 28px) clamp(20px, 4vw, 48px)',
           boxShadow: `0 16px 40px ${ACCENT}40`,
           border: `3px solid ${ACCENT}`,
-          maxWidth: 1000,
+          maxWidth: '100%',
           width: '100%',
           textAlign: 'center',
+          boxSizing: 'border-box',
         }}
       >
-        <h2 style={{ marginBottom: 8, fontSize: 'clamp(1.4rem, 2.8vw, 2rem)', color: ACCENT_DARK }}>
+        <h2 style={{ marginBottom: 8, fontSize: 'clamp(1.3rem, 5vw, 2rem)', color: ACCENT_DARK }}>
           🎩 Найди мошенника
         </h2>
-        <p style={{ color: 'var(--text-soft)', fontSize: 'clamp(1rem, 1.4vw, 1.2rem)', margin: 0 }}>
+        <p style={{ color: 'var(--text-soft)', fontSize: 'clamp(0.9rem, 3.5vw, 1.2rem)', margin: 0, lineHeight: 1.4 }}>
           На барахолке спрятались <b>3 мошеннических объявления</b>. Кликни на них!
         </p>
       </div>
@@ -122,10 +144,11 @@ export default function Mission08_Illusionist({ onSuccess }) {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(310px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
           gap: 16,
           width: '100%',
-          maxWidth: 1150,
+          maxWidth: '100%',
+          boxSizing: 'border-box',
         }}
       >
         {ads.map(ad => {
@@ -171,28 +194,32 @@ export default function Mission08_Illusionist({ onSuccess }) {
                 textAlign: 'left',
                 fontFamily: 'inherit',
                 position: 'relative',
+                width: '100%',
+                maxWidth: '100%',
+                boxSizing: 'border-box',
               }}
             >
               <div
                 style={{
-                  padding: '14px 18px',
+                  padding: 'clamp(10px, 2.5vw, 16px) clamp(12px, 3vw, 18px)',
                   background: `linear-gradient(135deg, #FDF2F5, #F5E2EA)`,
                   borderBottom: `3px solid #E5C2CC`,
                   display: 'flex',
                   alignItems: 'center',
-                  gap: 12,
+                  gap: 'clamp(8px, 2vw, 12px)',
                 }}
               >
-                <span style={{ fontSize: '2rem' }}>{ad.emoji}</span>
+                <span style={{ fontSize: 'clamp(1.5rem, 5vw, 2rem)', flexShrink: 0 }}>{ad.emoji}</span>
                 <span
                   style={{
-                    fontSize: '0.8rem',
+                    fontSize: 'clamp(0.65rem, 2.5vw, 0.8rem)',
                     fontWeight: 800,
                     color: ACCENT,
                     background: 'white',
                     padding: '4px 10px',
                     borderRadius: 999,
                     letterSpacing: '0.03em',
+                    wordBreak: 'break-word',
                   }}
                 >
                   {ad.category.toUpperCase()}
@@ -201,11 +228,12 @@ export default function Mission08_Illusionist({ onSuccess }) {
 
               <div
                 style={{
-                  padding: '16px 20px 10px',
+                  padding: 'clamp(12px, 3vw, 20px) clamp(12px, 3vw, 20px) 8px',
                   fontWeight: 800,
-                  fontSize: 'clamp(1.1rem, 1.5vw, 1.3rem)',
+                  fontSize: 'clamp(1rem, 4vw, 1.3rem)',
                   color: 'var(--text-dark)',
                   lineHeight: 1.3,
+                  wordBreak: 'break-word',
                 }}
               >
                 {ad.title}
@@ -213,11 +241,12 @@ export default function Mission08_Illusionist({ onSuccess }) {
 
               <div
                 style={{
-                  padding: '0 20px 20px',
-                  fontSize: 'clamp(0.92rem, 1.15vw, 1.05rem)',
+                  padding: '0 clamp(12px, 3vw, 20px) clamp(14px, 3vw, 20px)',
+                  fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)',
                   color: 'var(--text-soft)',
-                  lineHeight: 1.55,
+                  lineHeight: 1.5,
                   flex: 1,
+                  wordBreak: 'break-word',
                 }}
               >
                 {ad.text}
@@ -229,19 +258,20 @@ export default function Mission08_Illusionist({ onSuccess }) {
                   animate={{ scale: 1 }}
                   style={{
                     position: 'absolute',
-                    top: 14,
-                    right: 14,
-                    width: 34,
-                    height: 34,
+                    top: 12,
+                    right: 12,
+                    width: 30,
+                    height: 30,
                     borderRadius: '50%',
                     background: ACCENT,
                     color: 'white',
                     fontWeight: 800,
-                    fontSize: '1.1rem',
+                    fontSize: '1rem',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     boxShadow: `0 4px 12px ${ACCENT}66`,
+                    flexShrink: 0,
                   }}
                 >
                   ✓
@@ -253,12 +283,13 @@ export default function Mission08_Illusionist({ onSuccess }) {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   style={{
-                    padding: '12px 20px',
+                    padding: 'clamp(10px, 2.5vw, 16px) clamp(12px, 3vw, 20px)',
                     background: isScam ? '#F0FBF5' : '#F5F7FB',
                     borderTop: `3px solid ${isScam ? '#B5E6C3' : '#D5DEEC'}`,
-                    fontSize: 'clamp(0.85rem, 1.05vw, 0.95rem)',
+                    fontSize: 'clamp(0.8rem, 3vw, 0.95rem)',
                     color: 'var(--text-soft)',
                     lineHeight: 1.5,
+                    wordBreak: 'break-word',
                   }}
                 >
                   <b style={{ color: isScam ? '#2A8B4E' : '#5A6885' }}>
@@ -272,6 +303,7 @@ export default function Mission08_Illusionist({ onSuccess }) {
         })}
       </div>
 
+      {/* Кнопки */}
       <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', justifyContent: 'center', marginTop: 4 }}>
         {!checked && (
           <Button
@@ -279,7 +311,7 @@ export default function Mission08_Illusionist({ onSuccess }) {
             variant="primary"
             className="btn-xl"
             disabled={selected.length === 0}
-            style={{ background: ACCENT, color: 'white', fontSize: '1.35rem', padding: '18px 42px' }}
+            style={{ background: ACCENT, color: 'white' }}
           >
             🔍 Проверить выбор ({selected.length})
           </Button>
@@ -289,28 +321,41 @@ export default function Mission08_Illusionist({ onSuccess }) {
             onClick={handleRetry}
             variant="primary"
             className="btn-xl"
-            style={{ background: ACCENT, color: 'white', fontSize: '1.35rem', padding: '18px 42px' }}
+            style={{ background: ACCENT, color: 'white' }}
           >
             🔄 Попробовать снова
           </Button>
         )}
       </div>
 
-      <AnimatePresence>
-        {checked && (
-          <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+      {/* Итог — автоскролл */}
+      <div
+        ref={resultRef}
+        style={{
+          width: '100%',
+          maxWidth: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 16,
+          boxSizing: 'border-box',
+        }}
+      >
+        <AnimatePresence>
+          {checked && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               style={{
-                maxWidth: 900,
+                maxWidth: '100%',
                 width: '100%',
                 background: 'rgba(255,255,255,0.95)',
                 backdropFilter: 'blur(12px)',
                 borderLeft: `10px solid ${isPerfect ? SAFE : DANGER}`,
                 borderRadius: 24,
-                padding: 'clamp(20px, 3.5vh, 32px)',
+                padding: 'clamp(18px, 3.5vh, 32px)',
                 boxShadow: `0 20px 50px ${isPerfect ? 'rgba(76,184,108,0.25)' : 'rgba(192,41,66,0.25)'}`,
+                boxSizing: 'border-box',
               }}
             >
               <h3
@@ -318,7 +363,7 @@ export default function Mission08_Illusionist({ onSuccess }) {
                   color: isPerfect ? '#2A8B4E' : '#A01F35',
                   marginBottom: 10,
                   textAlign: 'center',
-                  fontSize: 'clamp(1.3rem, 2.4vw, 1.8rem)',
+                  fontSize: 'clamp(1.2rem, 4vw, 1.8rem)',
                 }}
               >
                 {isPerfect
@@ -330,7 +375,7 @@ export default function Mission08_Illusionist({ onSuccess }) {
                   textAlign: 'center',
                   color: 'var(--text-soft)',
                   marginBottom: isPerfect ? 20 : 0,
-                  fontSize: 'clamp(1rem, 1.4vw, 1.15rem)',
+                  fontSize: 'clamp(0.95rem, 3.5vw, 1.15rem)',
                 }}
               >
                 Ты нашёл {correctlyFound} из {scamIds.length} мошеннических объявлений
@@ -342,16 +387,16 @@ export default function Mission08_Illusionist({ onSuccess }) {
                     onClick={handleContinue}
                     variant="primary"
                     className="btn-xl"
-                    style={{ background: ACCENT, color: 'white', fontSize: '1.35rem', padding: '18px 42px' }}
+                    style={{ background: ACCENT, color: 'white' }}
                   >
                     Продолжить →
                   </Button>
                 </div>
               )}
             </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   )
 }

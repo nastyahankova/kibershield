@@ -36,7 +36,6 @@ export default function Mission01_Phishing({ onSuccess }) {
   const [showSigns, setShowSigns] = useState(false)
   const { playSuccess, playFail } = useSound()
 
-  // Автоскролл к результату
   const resultRef = useRef(null)
   useEffect(() => {
     if (checked && resultRef.current) {
@@ -67,24 +66,37 @@ export default function Mission01_Phishing({ onSuccess }) {
   const isCorrect = checked && letters.find(l => l.id === selected)?.isFake
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 20, alignItems: 'center' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 20,
+        alignItems: 'center',
+        width: '100%',
+        maxWidth: '100%',
+        overflowX: 'hidden',
+        padding: '0 4px',
+        boxSizing: 'border-box',
+      }}
+    >
       {/* Задание */}
       <div
         style={{
           background: 'rgba(255,255,255,0.95)',
           backdropFilter: 'blur(12px)',
           borderRadius: 24,
-          padding: 'clamp(16px, 2.5vh, 28px) clamp(24px, 4vw, 48px)',
+          padding: 'clamp(16px, 2.5vh, 28px) clamp(20px, 4vw, 48px)',
           boxShadow: '0 16px 40px rgba(46, 58, 89, 0.18)',
-          maxWidth: 1000,
+          maxWidth: '100%',
           width: '100%',
           textAlign: 'center',
+          boxSizing: 'border-box',
         }}
       >
         <h2
           style={{
             marginBottom: 8,
-            fontSize: 'clamp(1.4rem, 2.8vw, 2rem)',
+            fontSize: 'clamp(1.3rem, 5vw, 2rem)',
             background: 'linear-gradient(135deg, #4A90E2, #9B6BC9)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
@@ -93,7 +105,7 @@ export default function Mission01_Phishing({ onSuccess }) {
         >
           🎣 Найди поддельное письмо
         </h2>
-        <p style={{ color: 'var(--text-soft)', fontSize: 'clamp(1rem, 1.4vw, 1.2rem)', margin: 0 }}>
+        <p style={{ color: 'var(--text-soft)', fontSize: 'clamp(0.9rem, 3.5vw, 1.2rem)', margin: 0 }}>
           Одно письмо — настоящее, другое — от Крючка. Кликни на подозрительное!
         </p>
       </div>
@@ -102,10 +114,11 @@ export default function Mission01_Phishing({ onSuccess }) {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: 20,
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
+          gap: 16,
           width: '100%',
-          maxWidth: 1100,
+          maxWidth: '100%',
+          boxSizing: 'border-box',
         }}
       >
         {letters.map(letter => {
@@ -140,26 +153,30 @@ export default function Mission01_Phishing({ onSuccess }) {
                 transition: 'border-color 0.2s, box-shadow 0.2s',
                 display: 'flex',
                 flexDirection: 'column',
+                width: '100%',
+                maxWidth: '100%',
+                boxSizing: 'border-box',
               }}
             >
               <div
                 style={{
                   background: isSelected && !checked ? 'linear-gradient(135deg, #EAF4FC, #D5EAF8)' : '#F5F7FB',
-                  padding: '16px 20px',
+                  padding: 'clamp(12px, 3vw, 20px)',
                   borderBottom: '3px solid #EEF1F7',
                 }}
               >
                 <div
                   style={{
                     display: 'inline-block',
-                    fontSize: '0.8rem',
+                    fontSize: 'clamp(0.65rem, 2.5vw, 0.8rem)',
                     fontWeight: 800,
                     color: 'white',
                     background: isFake ? '#E85C5C' : '#4A90E2',
-                    padding: '4px 12px',
+                    padding: '4px 10px',
                     borderRadius: 999,
                     marginBottom: 8,
                     letterSpacing: '0.05em',
+                    wordBreak: 'break-word',
                   }}
                 >
                   ОТ: {letter.fromLabel.toUpperCase()}
@@ -167,9 +184,10 @@ export default function Mission01_Phishing({ onSuccess }) {
                 <div
                   style={{
                     fontWeight: 800,
-                    fontSize: 'clamp(1.05rem, 1.5vw, 1.25rem)',
+                    fontSize: 'clamp(1rem, 4vw, 1.25rem)',
                     color: 'var(--text-dark)',
                     lineHeight: 1.3,
+                    wordBreak: 'break-word',
                   }}
                 >
                   {letter.subject}
@@ -178,12 +196,13 @@ export default function Mission01_Phishing({ onSuccess }) {
 
               <div
                 style={{
-                  padding: '18px 22px',
-                  fontSize: 'clamp(0.95rem, 1.2vw, 1.1rem)',
+                  padding: 'clamp(12px, 3vw, 22px)',
+                  fontSize: 'clamp(0.9rem, 3.5vw, 1.1rem)',
                   color: 'var(--text-dark)',
                   whiteSpace: 'pre-line',
-                  lineHeight: 1.6,
+                  lineHeight: 1.5,
                   flex: 1,
+                  wordBreak: 'break-word',
                 }}
               >
                 {letter.body}
@@ -191,11 +210,12 @@ export default function Mission01_Phishing({ onSuccess }) {
 
               <div
                 style={{
-                  padding: '12px 22px 16px',
-                  fontSize: '0.9rem',
+                  padding: '10px 16px 14px',
+                  fontSize: 'clamp(0.75rem, 2.5vw, 0.9rem)',
                   color: 'var(--text-soft)',
                   fontStyle: 'italic',
                   borderTop: '2px dashed #EEF1F7',
+                  wordBreak: 'break-word',
                 }}
               >
                 {letter.sign}
@@ -212,9 +232,9 @@ export default function Mission01_Phishing({ onSuccess }) {
                     right: '-20px',
                     background: '#E85C5C',
                     color: 'white',
-                    padding: '12px 30px',
+                    padding: '10px 24px',
                     fontWeight: 900,
-                    fontSize: '1.4rem',
+                    fontSize: 'clamp(0.9rem, 3vw, 1.4rem)',
                     borderRadius: 10,
                     boxShadow: '0 8px 24px rgba(232,92,92,0.55)',
                     pointerEvents: 'none',
@@ -243,9 +263,19 @@ export default function Mission01_Phishing({ onSuccess }) {
         )}
       </div>
 
-      {/* Результат — с автоскроллом */}
-      <div ref={resultRef} style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20 }}>
-        {/* Ошибка */}
+      {/* Результат — автоскролл */}
+      <div
+        ref={resultRef}
+        style={{
+          width: '100%',
+          maxWidth: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 20,
+          boxSizing: 'border-box',
+        }}
+      >
         <AnimatePresence>
           {checked && !isCorrect && (
             <motion.div
@@ -253,19 +283,20 @@ export default function Mission01_Phishing({ onSuccess }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
               style={{
-                maxWidth: 760,
+                maxWidth: '100%',
                 width: '100%',
                 background: 'white',
                 borderLeft: '8px solid #E85C5C',
                 borderRadius: 20,
-                padding: 24,
+                padding: 'clamp(16px, 3vh, 24px)',
                 boxShadow: '0 12px 30px rgba(232,92,92,0.2)',
+                boxSizing: 'border-box',
               }}
             >
-              <h3 style={{ color: '#E85C5C', marginBottom: 10, fontSize: '1.4rem' }}>
+              <h3 style={{ color: '#E85C5C', marginBottom: 10, fontSize: 'clamp(1.1rem, 4vw, 1.4rem)' }}>
                 ❌ Не совсем так
               </h3>
-              <p style={{ fontSize: '1.1rem', color: 'var(--text-dark)', margin: 0 }}>
+              <p style={{ fontSize: 'clamp(0.95rem, 3.5vw, 1.1rem)', color: 'var(--text-dark)', margin: 0, wordBreak: 'break-word' }}>
                 Это письмо — настоящее. А подделка — письмо про выигрыш iPhone.
                 Присмотрись к нему: незнакомый адрес, странная ссылка. Попробуй ещё!
               </p>
@@ -273,21 +304,21 @@ export default function Mission01_Phishing({ onSuccess }) {
           )}
         </AnimatePresence>
 
-        {/* Успех + признаки */}
         <AnimatePresence>
           {showSigns && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               style={{
-                maxWidth: 1100,
+                maxWidth: '100%',
                 width: '100%',
                 background: 'rgba(255,255,255,0.95)',
                 backdropFilter: 'blur(12px)',
                 borderLeft: '10px solid #4CB86C',
                 borderRadius: 24,
-                padding: 'clamp(24px, 4vh, 36px)',
+                padding: 'clamp(18px, 4vh, 36px)',
                 boxShadow: '0 20px 50px rgba(76,184,108,0.25)',
+                boxSizing: 'border-box',
               }}
             >
               <h3
@@ -295,7 +326,7 @@ export default function Mission01_Phishing({ onSuccess }) {
                   color: 'var(--accent-green)',
                   marginBottom: 8,
                   textAlign: 'center',
-                  fontSize: 'clamp(1.4rem, 2.6vw, 2rem)',
+                  fontSize: 'clamp(1.2rem, 4vw, 2rem)',
                 }}
               >
                 ✅ Молодец! Ты нашёл фишинг
@@ -305,7 +336,7 @@ export default function Mission01_Phishing({ onSuccess }) {
                   textAlign: 'center',
                   color: 'var(--text-soft)',
                   marginBottom: 24,
-                  fontSize: 'clamp(1rem, 1.4vw, 1.15rem)',
+                  fontSize: 'clamp(0.9rem, 3.5vw, 1.15rem)',
                 }}
               >
                 Вот три признака, которые выдают подделку:
@@ -314,9 +345,10 @@ export default function Mission01_Phishing({ onSuccess }) {
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))',
                   gap: 16,
                   marginBottom: 28,
+                  boxSizing: 'border-box',
                 }}
               >
                 {signs.map((s, i) => (
@@ -326,25 +358,27 @@ export default function Mission01_Phishing({ onSuccess }) {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ delay: 0.15 * i, type: 'spring' }}
                     style={{
-                      padding: 20,
+                      padding: 'clamp(14px, 3vw, 20px)',
                       background: 'linear-gradient(135deg, #F0FBF5, #E4F7EC)',
                       borderRadius: 18,
                       border: '2.5px solid #B5E6C3',
                       textAlign: 'center',
+                      boxSizing: 'border-box',
                     }}
                   >
-                    <div style={{ fontSize: '2.8rem', marginBottom: 8 }}>{s.emoji}</div>
+                    <div style={{ fontSize: 'clamp(2rem, 6vw, 2.8rem)', marginBottom: 8 }}>{s.emoji}</div>
                     <div
                       style={{
                         fontWeight: 800,
                         marginBottom: 8,
-                        fontSize: '1.1rem',
+                        fontSize: 'clamp(0.95rem, 3.5vw, 1.1rem)',
                         color: 'var(--text-dark)',
+                        wordBreak: 'break-word',
                       }}
                     >
                       {s.title}
                     </div>
-                    <div style={{ fontSize: '0.95rem', color: 'var(--text-soft)', lineHeight: 1.4 }}>
+                    <div style={{ fontSize: 'clamp(0.8rem, 3vw, 0.95rem)', color: 'var(--text-soft)', lineHeight: 1.4, wordBreak: 'break-word' }}>
                       {s.text}
                     </div>
                   </motion.div>

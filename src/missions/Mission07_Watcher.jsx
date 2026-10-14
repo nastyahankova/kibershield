@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Button from '../components/ui/Button.jsx'
 import { useSound } from '../context/SoundContext.jsx'
@@ -26,6 +26,14 @@ export default function Mission07_Watcher({ onSuccess }) {
   const { playSuccess, playFail } = useSound()
   const resultRef = useRef(null)
 
+  useEffect(() => {
+    if (checked && resultRef.current) {
+      setTimeout(() => {
+        resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 250)
+    }
+  }, [checked])
+
   const toggle = (id) => {
     if (checked) return
     setSettings(prev => ({ ...prev, [id]: !prev[id] }))
@@ -40,14 +48,6 @@ export default function Mission07_Watcher({ onSuccess }) {
     } else {
       playFail()
     }
-    // Автоскролл к итогу
-    setTimeout(() => {
-      if (resultRef.current) {
-        const rect = resultRef.current.getBoundingClientRect()
-        const y = rect.top + window.scrollY - 80
-        window.scrollTo({ top: y, behavior: 'smooth' })
-      }
-    }, 150)
   }
 
   const handleRetry = () => setChecked(false)
@@ -58,25 +58,38 @@ export default function Mission07_Watcher({ onSuccess }) {
   const isPerfect = correctCount === totalCount
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 18, alignItems: 'center' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 18,
+        alignItems: 'center',
+        width: '100%',
+        maxWidth: '100%',
+        overflowX: 'hidden',
+        padding: '0 4px',
+        boxSizing: 'border-box',
+      }}
+    >
       {/* Заголовок */}
       <div
         style={{
           background: 'rgba(255,255,255,0.95)',
           backdropFilter: 'blur(12px)',
           borderRadius: 24,
-          padding: 'clamp(16px, 2.5vh, 28px) clamp(24px, 4vw, 48px)',
+          padding: 'clamp(16px, 2.5vh, 28px) clamp(20px, 4vw, 48px)',
           boxShadow: `0 16px 40px ${ACCENT}40`,
           border: `3px solid ${ACCENT}`,
-          maxWidth: 1000,
+          maxWidth: '100%',
           width: '100%',
           textAlign: 'center',
+          boxSizing: 'border-box',
         }}
       >
-        <h2 style={{ marginBottom: 8, fontSize: 'clamp(1.4rem, 2.8vw, 2rem)', color: '#9A6F00' }}>
+        <h2 style={{ marginBottom: 8, fontSize: 'clamp(1.3rem, 5vw, 2rem)', color: '#9A6F00' }}>
           👁️ Настрой приватность
         </h2>
-        <p style={{ color: 'var(--text-soft)', fontSize: 'clamp(1rem, 1.4vw, 1.2rem)', margin: 0 }}>
+        <p style={{ color: 'var(--text-soft)', fontSize: 'clamp(0.9rem, 3.5vw, 1.2rem)', margin: 0, lineHeight: 1.4 }}>
           Соглядатай следит за твоим профилем. <b>Спрячь всё личное</b> и оставь только безопасное!
         </p>
       </div>
@@ -87,11 +100,13 @@ export default function Mission07_Watcher({ onSuccess }) {
           background: 'rgba(255,255,255,0.95)',
           backdropFilter: 'blur(12px)',
           borderRadius: 24,
-          padding: 'clamp(18px, 3vh, 28px)',
+          padding: 'clamp(14px, 3vh, 28px)',
           boxShadow: `0 16px 40px ${ACCENT}30`,
           border: `2px solid #E8D5A0`,
-          maxWidth: 950,
+          maxWidth: '100%',
           width: '100%',
+          boxSizing: 'border-box',
+          overflow: 'hidden',
         }}
       >
         {/* Шапка профиля */}
@@ -99,34 +114,39 @@ export default function Mission07_Watcher({ onSuccess }) {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: 16,
-            marginBottom: 20,
-            paddingBottom: 16,
+            gap: 'clamp(10px, 3vw, 16px)',
+            marginBottom: 'clamp(14px, 2.5vh, 20px)',
+            paddingBottom: 'clamp(10px, 2vh, 16px)',
             borderBottom: `3px solid #F5E6C0`,
           }}
         >
           <div
             style={{
-              width: 70, height: 70, borderRadius: '50%',
+              width: 'clamp(52px, 15vw, 70px)',
+              height: 'clamp(52px, 15vw, 70px)',
+              borderRadius: '50%',
               background: 'linear-gradient(135deg, #FFE082, #F5C242)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '2.4rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: 'clamp(1.6rem, 6vw, 2.4rem)',
+              flexShrink: 0,
             }}
           >
             🧒
           </div>
-          <div>
-            <div style={{ fontWeight: 800, fontSize: 'clamp(1.1rem, 1.6vw, 1.3rem)' }}>
+          <div style={{ minWidth: 0, flex: 1 }}>
+            <div style={{ fontWeight: 800, fontSize: 'clamp(1rem, 4vw, 1.3rem)', wordBreak: 'break-word' }}>
               Иван Петров
             </div>
-            <div style={{ color: 'var(--text-soft)', fontSize: '0.9rem' }}>
+            <div style={{ color: 'var(--text-soft)', fontSize: 'clamp(0.75rem, 2.8vw, 0.9rem)', wordBreak: 'break-word' }}>
               Профиль в соцсети · Приватность: настрой сам
             </div>
           </div>
         </div>
 
         {/* Пункты */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(8px, 1.5vh, 12px)' }}>
           {fields.map(field => {
             const isPublic = settings[field.id]
             const isCorrect = isPublic === field.correctPublic
@@ -148,21 +168,29 @@ export default function Mission07_Watcher({ onSuccess }) {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: 14,
+                  gap: 'clamp(8px, 2.5vw, 14px)',
                   border: `3px solid ${bc}`,
-                  borderRadius: 18,
+                  borderRadius: 'clamp(14px, 3vw, 18px)',
                   background: bg,
                   boxShadow: `0 6px 20px ${sh}`,
-                  padding: '14px 18px',
+                  padding: 'clamp(10px, 2.5vw, 16px) clamp(10px, 3vw, 18px)',
                   transition: 'all 0.25s',
+                  boxSizing: 'border-box',
+                  width: '100%',
+                  maxWidth: '100%',
                 }}
               >
                 <div
                   style={{
-                    width: 52, height: 52, borderRadius: 14,
+                    width: 'clamp(38px, 10vw, 52px)',
+                    height: 'clamp(38px, 10vw, 52px)',
+                    borderRadius: 'clamp(10px, 2.5vw, 14px)',
                     background: '#F5F7FB',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '1.8rem', flexShrink: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: 'clamp(1.2rem, 5vw, 1.8rem)',
+                    flexShrink: 0,
                   }}
                 >
                   {field.emoji}
@@ -172,15 +200,16 @@ export default function Mission07_Watcher({ onSuccess }) {
                   <div
                     style={{
                       fontWeight: 800,
-                      fontSize: 'clamp(1rem, 1.3vw, 1.15rem)',
+                      fontSize: 'clamp(0.9rem, 3.5vw, 1.15rem)',
                       color: 'var(--text-dark)',
+                      wordBreak: 'break-word',
                     }}
                   >
                     {field.label}
                   </div>
                   <div
                     style={{
-                      fontSize: 'clamp(0.8rem, 1vw, 0.9rem)',
+                      fontSize: 'clamp(0.72rem, 2.8vw, 0.9rem)',
                       color: 'var(--text-soft)',
                       marginTop: 2,
                       wordBreak: 'break-word',
@@ -192,9 +221,10 @@ export default function Mission07_Watcher({ onSuccess }) {
                     <div
                       style={{
                         marginTop: 6,
-                        fontSize: 'clamp(0.82rem, 1.05vw, 0.92rem)',
+                        fontSize: 'clamp(0.72rem, 2.8vw, 0.92rem)',
                         color: isCorrect ? '#2A8B4E' : '#C33C3C',
                         lineHeight: 1.45,
+                        wordBreak: 'break-word',
                       }}
                     >
                       <b>{isCorrect ? '✅ ' : '❌ '}</b>
@@ -208,7 +238,8 @@ export default function Mission07_Watcher({ onSuccess }) {
                   disabled={checked}
                   style={{
                     position: 'relative',
-                    width: 78, height: 40,
+                    width: 'clamp(56px, 14vw, 78px)',
+                    height: 'clamp(30px, 7vw, 40px)',
                     borderRadius: 999,
                     border: 'none',
                     background: isPublic
@@ -223,14 +254,17 @@ export default function Mission07_Watcher({ onSuccess }) {
                   <div
                     style={{
                       position: 'absolute',
-                      top: 4,
-                      left: isPublic ? 4 : 42,
-                      width: 32, height: 32,
+                      top: 3,
+                      left: isPublic ? 3 : 'calc(100% - 27px)',
+                      width: 'clamp(24px, 6vw, 32px)',
+                      height: 'clamp(24px, 6vw, 32px)',
                       borderRadius: '50%',
                       background: 'white',
                       boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: '0.9rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: 'clamp(0.7rem, 3vw, 0.9rem)',
                       transition: 'left 0.25s',
                     }}
                   >
@@ -245,21 +279,21 @@ export default function Mission07_Watcher({ onSuccess }) {
         {/* Легенда */}
         <div
           style={{
-            marginTop: 20,
+            marginTop: 'clamp(14px, 2.5vh, 20px)',
             display: 'flex',
-            gap: 20,
+            gap: 'clamp(10px, 3vw, 20px)',
             justifyContent: 'center',
             flexWrap: 'wrap',
-            fontSize: '0.9rem',
+            fontSize: 'clamp(0.72rem, 2.8vw, 0.9rem)',
             color: 'var(--text-soft)',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <div style={{ width: 16, height: 16, borderRadius: 4, background: 'linear-gradient(135deg, #F5C242, #D4A02C)' }} />
+            <div style={{ width: 14, height: 14, borderRadius: 4, background: 'linear-gradient(135deg, #F5C242, #D4A02C)' }} />
             Видно всем
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <div style={{ width: 16, height: 16, borderRadius: 4, background: 'linear-gradient(135deg, #B5E6C3, #4CB86C)' }} />
+            <div style={{ width: 14, height: 14, borderRadius: 4, background: 'linear-gradient(135deg, #B5E6C3, #4CB86C)' }} />
             Только мне
           </div>
         </div>
@@ -272,7 +306,7 @@ export default function Mission07_Watcher({ onSuccess }) {
             onClick={handleCheck}
             variant="primary"
             className="btn-xl"
-            style={{ background: ACCENT, color: 'white', fontSize: '1.35rem', padding: '18px 42px' }}
+            style={{ background: ACCENT, color: 'white' }}
           >
             🔍 Проверить настройки
           </Button>
@@ -282,29 +316,41 @@ export default function Mission07_Watcher({ onSuccess }) {
             onClick={handleRetry}
             variant="primary"
             className="btn-xl"
-            style={{ background: ACCENT, color: 'white', fontSize: '1.35rem', padding: '18px 42px' }}
+            style={{ background: ACCENT, color: 'white' }}
           >
             🔄 Попробовать снова
           </Button>
         )}
       </div>
 
-      {/* Итог с ref для ручного скролла */}
-      <AnimatePresence>
-        {checked && (
-          <div ref={resultRef} style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+      {/* Итог — автоскролл */}
+      <div
+        ref={resultRef}
+        style={{
+          width: '100%',
+          maxWidth: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 16,
+          boxSizing: 'border-box',
+        }}
+      >
+        <AnimatePresence>
+          {checked && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               style={{
-                maxWidth: 900,
+                maxWidth: '100%',
                 width: '100%',
                 background: 'rgba(255,255,255,0.95)',
                 backdropFilter: 'blur(12px)',
                 borderLeft: `10px solid ${isPerfect ? SAFE : DANGER}`,
                 borderRadius: 24,
-                padding: 'clamp(20px, 3.5vh, 32px)',
+                padding: 'clamp(18px, 3.5vh, 32px)',
                 boxShadow: `0 20px 50px ${isPerfect ? 'rgba(76,184,108,0.25)' : 'rgba(232,92,92,0.25)'}`,
+                boxSizing: 'border-box',
               }}
             >
               <h3
@@ -312,7 +358,7 @@ export default function Mission07_Watcher({ onSuccess }) {
                   color: isPerfect ? '#2A8B4E' : '#C33C3C',
                   marginBottom: 10,
                   textAlign: 'center',
-                  fontSize: 'clamp(1.3rem, 2.4vw, 1.8rem)',
+                  fontSize: 'clamp(1.2rem, 4vw, 1.8rem)',
                 }}
               >
                 {isPerfect
@@ -324,7 +370,7 @@ export default function Mission07_Watcher({ onSuccess }) {
                   textAlign: 'center',
                   color: 'var(--text-soft)',
                   marginBottom: isPerfect ? 20 : 0,
-                  fontSize: 'clamp(1rem, 1.4vw, 1.15rem)',
+                  fontSize: 'clamp(0.95rem, 3.5vw, 1.15rem)',
                 }}
               >
                 Правильно настроено: <b>{correctCount} из {totalCount}</b>
@@ -335,16 +381,16 @@ export default function Mission07_Watcher({ onSuccess }) {
                     onClick={handleContinue}
                     variant="primary"
                     className="btn-xl"
-                    style={{ background: ACCENT, color: 'white', fontSize: '1.35rem', padding: '18px 42px' }}
+                    style={{ background: ACCENT, color: 'white' }}
                   >
                     Продолжить →
                   </Button>
                 </div>
               )}
             </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   )
 }

@@ -62,7 +62,6 @@ export default function Mission02_Flood({ onSuccess }) {
   const [checked, setChecked] = useState(false)
   const { playSuccess, playFail } = useSound()
 
-  // Автоскролл к результату
   const resultRef = useRef(null)
   useEffect(() => {
     if (checked && resultRef.current) {
@@ -106,31 +105,44 @@ export default function Mission02_Flood({ onSuccess }) {
   const handleContinue = () => onSuccess()
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 18, alignItems: 'center' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 18,
+        alignItems: 'center',
+        width: '100%',
+        maxWidth: '100%',
+        overflowX: 'hidden',
+        padding: '0 4px',
+        boxSizing: 'border-box',
+      }}
+    >
       {/* Заголовок */}
       <div
         style={{
           background: 'rgba(255,255,255,0.95)',
           backdropFilter: 'blur(12px)',
           borderRadius: 24,
-          padding: 'clamp(16px, 2.5vh, 28px) clamp(24px, 4vw, 48px)',
+          padding: 'clamp(16px, 2.5vh, 28px) clamp(20px, 4vw, 48px)',
           boxShadow: `0 16px 40px rgba(245, 166, 35, 0.25)`,
           border: `3px solid ${ACCENT}`,
-          maxWidth: 1000,
+          maxWidth: '100%',
           width: '100%',
           textAlign: 'center',
+          boxSizing: 'border-box',
         }}
       >
         <h2
           style={{
             marginBottom: 8,
-            fontSize: 'clamp(1.4rem, 2.8vw, 2rem)',
+            fontSize: 'clamp(1.3rem, 5vw, 2rem)',
             color: ACCENT_DARK,
           }}
         >
           📱 Найди мошеннические SMS
         </h2>
-        <p style={{ color: 'var(--text-soft)', fontSize: 'clamp(1rem, 1.4vw, 1.2rem)', margin: 0 }}>
+        <p style={{ color: 'var(--text-soft)', fontSize: 'clamp(0.9rem, 3.5vw, 1.2rem)', margin: 0, lineHeight: 1.4 }}>
           Среди этих сообщений спрятались <b>3 мошеннических</b>. Кликни на них!
         </p>
       </div>
@@ -139,10 +151,11 @@ export default function Mission02_Flood({ onSuccess }) {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
           gap: 16,
           width: '100%',
-          maxWidth: 1100,
+          maxWidth: '100%',
+          boxSizing: 'border-box',
         }}
       >
         {messages.map(msg => {
@@ -182,23 +195,40 @@ export default function Mission02_Flood({ onSuccess }) {
                 position: 'relative',
                 display: 'flex',
                 flexDirection: 'column',
+                width: '100%',
+                maxWidth: '100%',
+                boxSizing: 'border-box',
               }}
             >
               <div
                 style={{
-                  padding: '12px 18px',
+                  padding: 'clamp(10px, 2.5vw, 16px) clamp(12px, 3vw, 18px)',
                   background: isSelected && !checked ? '#FFF3D6' : '#F5F7FB',
                   borderBottom: '3px solid #EEF1F7',
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
+                  gap: 8,
                 }}
               >
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontWeight: 800, fontSize: '0.95rem', color: 'var(--text-dark)' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, flex: 1 }}>
+                  <span
+                    style={{
+                      fontWeight: 800,
+                      fontSize: 'clamp(0.85rem, 3vw, 0.95rem)',
+                      color: 'var(--text-dark)',
+                      wordBreak: 'break-word',
+                    }}
+                  >
                     {msg.fromLabel}
                   </span>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--text-soft)' }}>
+                  <span
+                    style={{
+                      fontSize: 'clamp(0.7rem, 2.5vw, 0.8rem)',
+                      color: 'var(--text-soft)',
+                      wordBreak: 'break-all',
+                    }}
+                  >
                     {msg.from}
                   </span>
                 </div>
@@ -212,6 +242,7 @@ export default function Mission02_Flood({ onSuccess }) {
                         background: ACCENT, color: 'white', borderRadius: '50%',
                         width: 28, height: 28, display: 'flex', alignItems: 'center',
                         justifyContent: 'center', fontWeight: 800, fontSize: '1rem',
+                        flexShrink: 0,
                       }}
                     >
                       ✓
@@ -222,11 +253,12 @@ export default function Mission02_Flood({ onSuccess }) {
 
               <div
                 style={{
-                  padding: '16px 18px',
-                  fontSize: 'clamp(0.95rem, 1.2vw, 1.08rem)',
+                  padding: 'clamp(12px, 3vw, 18px)',
+                  fontSize: 'clamp(0.9rem, 3.5vw, 1.08rem)',
                   color: 'var(--text-dark)',
-                  lineHeight: 1.55,
+                  lineHeight: 1.5,
                   flex: 1,
+                  wordBreak: 'break-word',
                 }}
               >
                 {msg.text}
@@ -237,12 +269,13 @@ export default function Mission02_Flood({ onSuccess }) {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   style={{
-                    padding: '12px 18px',
+                    padding: 'clamp(10px, 2.5vw, 16px) clamp(12px, 3vw, 18px)',
                     background: isSpam ? '#F0FBF5' : '#F5F7FB',
                     borderTop: `3px solid ${isSpam ? '#4CB86C' : '#B8C5D6'}`,
-                    fontSize: '0.88rem',
+                    fontSize: 'clamp(0.8rem, 3vw, 0.95rem)',
                     color: 'var(--text-soft)',
                     lineHeight: 1.5,
+                    wordBreak: 'break-word',
                   }}
                 >
                   <b style={{ color: isSpam ? '#2A8B4E' : '#5A6885' }}>
@@ -281,15 +314,17 @@ export default function Mission02_Flood({ onSuccess }) {
         )}
       </div>
 
-      {/* Результат — с автоскроллом */}
+      {/* Результат — автоскролл */}
       <div
         ref={resultRef}
         style={{
           width: '100%',
+          maxWidth: '100%',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           gap: 16,
+          boxSizing: 'border-box',
         }}
       >
         <AnimatePresence>
@@ -298,14 +333,15 @@ export default function Mission02_Flood({ onSuccess }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               style={{
-                maxWidth: 900,
+                maxWidth: '100%',
                 width: '100%',
                 background: 'rgba(255,255,255,0.95)',
                 backdropFilter: 'blur(12px)',
                 borderLeft: `10px solid ${isPerfect ? '#4CB86C' : '#E85C5C'}`,
                 borderRadius: 24,
-                padding: 'clamp(20px, 3.5vh, 32px)',
+                padding: 'clamp(18px, 3.5vh, 32px)',
                 boxShadow: `0 20px 50px ${isPerfect ? 'rgba(76,184,108,0.25)' : 'rgba(232,92,92,0.25)'}`,
+                boxSizing: 'border-box',
               }}
             >
               <h3
@@ -313,7 +349,7 @@ export default function Mission02_Flood({ onSuccess }) {
                   color: isPerfect ? '#2A8B4E' : '#C33C3C',
                   marginBottom: 10,
                   textAlign: 'center',
-                  fontSize: 'clamp(1.3rem, 2.4vw, 1.8rem)',
+                  fontSize: 'clamp(1.2rem, 4vw, 1.8rem)',
                 }}
               >
                 {isPerfect ? '✅ Отлично! Все мошенники найдены' : '❌ Есть ошибки'}
@@ -323,7 +359,7 @@ export default function Mission02_Flood({ onSuccess }) {
                   textAlign: 'center',
                   color: 'var(--text-soft)',
                   marginBottom: 20,
-                  fontSize: 'clamp(1rem, 1.4vw, 1.15rem)',
+                  fontSize: 'clamp(0.95rem, 3.5vw, 1.15rem)',
                 }}
               >
                 Ты нашёл {correctlyFound} из {spamIds.length} мошеннических SMS

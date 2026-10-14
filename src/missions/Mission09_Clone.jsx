@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Button from '../components/ui/Button.jsx'
 import { useSound } from '../context/SoundContext.jsx'
@@ -41,6 +41,14 @@ export default function Mission09_Clone({ onSuccess }) {
   const { playSuccess, playFail } = useSound()
   const resultRef = useRef(null)
 
+  useEffect(() => {
+    if (checked && resultRef.current) {
+      setTimeout(() => {
+        resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 250)
+    }
+  }, [checked])
+
   const toggle = (id) => {
     if (checked) return
     setSelected(prev =>
@@ -60,14 +68,6 @@ export default function Mission09_Clone({ onSuccess }) {
     } else {
       playFail()
     }
-    // Автоскролл к итогу
-    setTimeout(() => {
-      if (resultRef.current) {
-        const rect = resultRef.current.getBoundingClientRect()
-        const y = rect.top + window.scrollY - 80
-        window.scrollTo({ top: y, behavior: 'smooth' })
-      }
-    }, 150)
   }
 
   const handleRetry = () => {
@@ -83,25 +83,38 @@ export default function Mission09_Clone({ onSuccess }) {
   const isPerfect = correctlyFound === TOTAL_SUSPICIOUS && wrongFound === 0
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 18, alignItems: 'center' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 18,
+        alignItems: 'center',
+        width: '100%',
+        maxWidth: '100%',
+        overflowX: 'hidden',
+        padding: '0 4px',
+        boxSizing: 'border-box',
+      }}
+    >
       {/* Заголовок */}
       <div
         style={{
           background: 'rgba(255,255,255,0.95)',
           backdropFilter: 'blur(12px)',
           borderRadius: 24,
-          padding: 'clamp(16px, 2.5vh, 28px) clamp(24px, 4vw, 48px)',
+          padding: 'clamp(16px, 2.5vh, 28px) clamp(20px, 4vw, 48px)',
           boxShadow: `0 16px 40px ${ACCENT}40`,
           border: `3px solid ${ACCENT}`,
-          maxWidth: 1050,
+          maxWidth: '100%',
           width: '100%',
           textAlign: 'center',
+          boxSizing: 'border-box',
         }}
       >
-        <h2 style={{ marginBottom: 8, fontSize: 'clamp(1.4rem, 2.8vw, 2rem)', color: ACCENT_DARK }}>
+        <h2 style={{ marginBottom: 8, fontSize: 'clamp(1.3rem, 5vw, 2rem)', color: ACCENT_DARK }}>
           👥 Разоблачи двойника
         </h2>
-        <p style={{ color: 'var(--text-soft)', fontSize: 'clamp(1rem, 1.4vw, 1.2rem)', margin: 0 }}>
+        <p style={{ color: 'var(--text-soft)', fontSize: 'clamp(0.9rem, 3.5vw, 1.2rem)', margin: 0, lineHeight: 1.4 }}>
           Клон создал фейковый аккаунт твоего друга Максима. Профили выглядят почти одинаково —
           но есть <b>{TOTAL_SUSPICIOUS} подозрительных признака</b> в профиле клона. Найди их!
         </p>
@@ -111,10 +124,11 @@ export default function Mission09_Clone({ onSuccess }) {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-          gap: 18,
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
+          gap: 16,
           width: '100%',
-          maxWidth: 1150,
+          maxWidth: '100%',
+          boxSizing: 'border-box',
         }}
       >
         <ProfileCard
@@ -145,10 +159,11 @@ export default function Mission09_Clone({ onSuccess }) {
       <div
         style={{
           display: 'flex',
-          gap: 12,
+          gap: 10,
           flexWrap: 'wrap',
           justifyContent: 'center',
           alignItems: 'center',
+          padding: '0 4px',
         }}
       >
         <StatusPill color={ACCENT} icon="🔍" label={`Найдено признаков: ${selected.length} / ${TOTAL_SUSPICIOUS}`} />
@@ -162,7 +177,7 @@ export default function Mission09_Clone({ onSuccess }) {
             variant="primary"
             className="btn-xl"
             disabled={selected.length === 0}
-            style={{ background: ACCENT, color: 'white', fontSize: '1.35rem', padding: '18px 42px' }}
+            style={{ background: ACCENT, color: 'white' }}
           >
             🔍 Проверить ({selected.length})
           </Button>
@@ -172,29 +187,41 @@ export default function Mission09_Clone({ onSuccess }) {
             onClick={handleRetry}
             variant="primary"
             className="btn-xl"
-            style={{ background: ACCENT, color: 'white', fontSize: '1.35rem', padding: '18px 42px' }}
+            style={{ background: ACCENT, color: 'white' }}
           >
             🔄 Попробовать снова
           </Button>
         )}
       </div>
 
-      {/* Итог с ref для автоскролла */}
-      <AnimatePresence>
-        {checked && (
-          <div ref={resultRef} style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+      {/* Итог — автоскролл */}
+      <div
+        ref={resultRef}
+        style={{
+          width: '100%',
+          maxWidth: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 16,
+          boxSizing: 'border-box',
+        }}
+      >
+        <AnimatePresence>
+          {checked && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               style={{
-                maxWidth: 900,
+                maxWidth: '100%',
                 width: '100%',
                 background: 'rgba(255,255,255,0.95)',
                 backdropFilter: 'blur(12px)',
                 borderLeft: `10px solid ${isPerfect ? SAFE : DANGER}`,
                 borderRadius: 24,
-                padding: 'clamp(20px, 3.5vh, 32px)',
+                padding: 'clamp(18px, 3.5vh, 32px)',
                 boxShadow: `0 20px 50px ${isPerfect ? 'rgba(76,184,108,0.25)' : 'rgba(232,92,92,0.25)'}`,
+                boxSizing: 'border-box',
               }}
             >
               <h3
@@ -202,7 +229,7 @@ export default function Mission09_Clone({ onSuccess }) {
                   color: isPerfect ? '#2A8B4E' : '#C33C3C',
                   marginBottom: 10,
                   textAlign: 'center',
-                  fontSize: 'clamp(1.3rem, 2.4vw, 1.8rem)',
+                  fontSize: 'clamp(1.2rem, 4vw, 1.8rem)',
                 }}
               >
                 {isPerfect
@@ -214,7 +241,7 @@ export default function Mission09_Clone({ onSuccess }) {
                   textAlign: 'center',
                   color: 'var(--text-soft)',
                   marginBottom: isPerfect ? 20 : 0,
-                  fontSize: 'clamp(1rem, 1.4vw, 1.15rem)',
+                  fontSize: 'clamp(0.95rem, 3.5vw, 1.15rem)',
                 }}
               >
                 Ты нашёл {correctlyFound} из {TOTAL_SUSPICIOUS} признаков
@@ -226,16 +253,16 @@ export default function Mission09_Clone({ onSuccess }) {
                     onClick={handleContinue}
                     variant="primary"
                     className="btn-xl"
-                    style={{ background: ACCENT, color: 'white', fontSize: '1.35rem', padding: '18px 42px' }}
+                    style={{ background: ACCENT, color: 'white' }}
                   >
                     Продолжить →
                   </Button>
                 </div>
               )}
             </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   )
 }
@@ -261,44 +288,67 @@ function ProfileCard({
         background: 'rgba(255,255,255,0.95)',
         backdropFilter: 'blur(12px)',
         borderRadius: 24,
-        padding: 'clamp(18px, 3vh, 26px)',
+        padding: 'clamp(14px, 3vh, 26px)',
         boxShadow: `0 16px 40px ${borderColor}30`,
         border: `4px solid ${borderColor}`,
         display: 'flex',
         flexDirection: 'column',
+        width: '100%',
+        maxWidth: '100%',
+        boxSizing: 'border-box',
+        overflow: 'hidden',
       }}
     >
+      {/* Шапка профиля */}
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: 14,
-          paddingBottom: 16,
+          gap: 'clamp(10px, 3vw, 14px)',
+          paddingBottom: 'clamp(12px, 2vh, 16px)',
           borderBottom: `2px dashed #D5DEEC`,
-          marginBottom: 16,
+          marginBottom: 'clamp(12px, 2vh, 16px)',
         }}
       >
         <div
           style={{
-            width: 64, height: 64, borderRadius: '50%',
+            width: 'clamp(52px, 14vw, 64px)',
+            height: 'clamp(52px, 14vw, 64px)',
+            borderRadius: '50%',
             background: avatarBg,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '2.2rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: 'clamp(1.6rem, 5vw, 2.2rem)',
+            flexShrink: 0,
           }}
         >
           {avatar}
         </div>
-        <div>
-          <div style={{ fontWeight: 800, fontSize: 'clamp(1.05rem, 1.5vw, 1.25rem)' }}>
+        <div style={{ minWidth: 0, flex: 1 }}>
+          <div
+            style={{
+              fontWeight: 800,
+              fontSize: 'clamp(1rem, 3.8vw, 1.25rem)',
+              wordBreak: 'break-word',
+            }}
+          >
             {title}
           </div>
-          <div style={{ fontSize: '0.85rem', color: 'var(--text-soft)' }}>
+          <div
+            style={{
+              fontSize: 'clamp(0.75rem, 2.8vw, 0.85rem)',
+              color: 'var(--text-soft)',
+              wordBreak: 'break-word',
+            }}
+          >
             {subtitle}
           </div>
         </div>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, flex: 1 }}>
+      {/* Поля */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(8px, 1.5vh, 10px)', flex: 1 }}>
         {fields.map(field => {
           const isSelected = selected.includes(field.id)
           const isSuspicious = !!field.suspicious
@@ -332,31 +382,37 @@ function ProfileCard({
                 borderRadius: 14,
                 background: bg,
                 boxShadow: sh,
-                padding: '10px 14px',
+                padding: 'clamp(8px, 2.5vw, 14px) clamp(10px, 3vw, 14px)',
                 cursor,
                 transition: 'all 0.2s',
                 display: 'flex',
                 alignItems: 'center',
-                gap: 12,
+                gap: 'clamp(8px, 2.5vw, 12px)',
                 position: 'relative',
+                boxSizing: 'border-box',
+                width: '100%',
+                maxWidth: '100%',
               }}
             >
-              <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>{field.emoji}</span>
+              <span style={{ fontSize: 'clamp(1.1rem, 4vw, 1.4rem)', flexShrink: 0 }}>
+                {field.emoji}
+              </span>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div
                   style={{
-                    fontSize: '0.75rem',
+                    fontSize: 'clamp(0.65rem, 2.5vw, 0.75rem)',
                     fontWeight: 700,
                     color: 'var(--text-soft)',
                     letterSpacing: '0.05em',
                     marginBottom: 2,
+                    wordBreak: 'break-word',
                   }}
                 >
                   {field.label.toUpperCase()}
                 </div>
                 <div
                   style={{
-                    fontSize: 'clamp(0.9rem, 1.15vw, 1.05rem)',
+                    fontSize: 'clamp(0.85rem, 3.3vw, 1.05rem)',
                     color: 'var(--text-dark)',
                     fontWeight: 600,
                     lineHeight: 1.35,
@@ -372,9 +428,10 @@ function ProfileCard({
                     animate={{ opacity: 1, height: 'auto' }}
                     style={{
                       marginTop: 6,
-                      fontSize: 'clamp(0.78rem, 1vw, 0.88rem)',
+                      fontSize: 'clamp(0.72rem, 2.8vw, 0.88rem)',
                       color: '#2A8B4E',
                       lineHeight: 1.45,
+                      wordBreak: 'break-word',
                     }}
                   >
                     <b>✅ Верно: </b>
@@ -388,9 +445,10 @@ function ProfileCard({
                     animate={{ opacity: 1 }}
                     style={{
                       marginTop: 6,
-                      fontSize: 'clamp(0.78rem, 1vw, 0.88rem)',
+                      fontSize: 'clamp(0.72rem, 2.8vw, 0.88rem)',
                       color: '#C33C3C',
                       lineHeight: 1.45,
+                      wordBreak: 'break-word',
                     }}
                   >
                     <b>❌ Пропущено: </b>
@@ -404,9 +462,10 @@ function ProfileCard({
                     animate={{ opacity: 1 }}
                     style={{
                       marginTop: 6,
-                      fontSize: 'clamp(0.78rem, 1vw, 0.88rem)',
+                      fontSize: 'clamp(0.72rem, 2.8vw, 0.88rem)',
                       color: '#C33C3C',
                       lineHeight: 1.45,
+                      wordBreak: 'break-word',
                     }}
                   >
                     <b>❌ Ошибка: </b>
@@ -420,13 +479,13 @@ function ProfileCard({
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   style={{
-                    width: 28,
-                    height: 28,
+                    width: 26,
+                    height: 26,
                     borderRadius: '50%',
                     background: ACCENT,
                     color: 'white',
                     fontWeight: 800,
-                    fontSize: '0.9rem',
+                    fontSize: '0.85rem',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -449,15 +508,16 @@ function StatusPill({ color, icon, label }) {
     <div
       style={{
         background: 'rgba(255,255,255,0.95)',
-        border: `2.5px solid ${color}`,
+        border: `2px solid ${color}`,
         borderRadius: 999,
-        padding: '8px 18px',
+        padding: '5px 12px',
         display: 'flex',
         alignItems: 'center',
-        gap: 8,
-        fontSize: 'clamp(0.9rem, 1.2vw, 1.05rem)',
+        gap: 5,
+        fontSize: 'clamp(0.72rem, 2.8vw, 1rem)',
         fontWeight: 700,
         color: 'var(--text-dark)',
+        whiteSpace: 'nowrap',
       }}
     >
       <span>{icon}</span>

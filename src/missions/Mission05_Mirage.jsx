@@ -1,7 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Button from '../components/ui/Button.jsx'
-import ScrollTo from '../components/ScrollTo.jsx'
 import { useSound } from '../context/SoundContext.jsx'
 
 const news = [
@@ -76,6 +75,26 @@ export default function Mission05_Mirage({ onSuccess }) {
 
   const { playSuccess, playFail } = useSound()
 
+  // Автоскролл к результату (первый этап — выбор новости)
+  const resultRef = useRef(null)
+  useEffect(() => {
+    if (checkedNews && resultRef.current) {
+      setTimeout(() => {
+        resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 250)
+    }
+  }, [checkedNews])
+
+  // Автоскролл к разбору признаков
+  const reasonsRef = useRef(null)
+  useEffect(() => {
+    if (checkedReason && reasonsRef.current) {
+      setTimeout(() => {
+        reasonsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 250)
+    }
+  }, [checkedReason])
+
   const handleNewsClick = (n) => {
     if (checkedNews) return
     setSelectedNews(n.id)
@@ -135,25 +154,38 @@ export default function Mission05_Mirage({ onSuccess }) {
   const handleContinue = () => onSuccess()
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 18, alignItems: 'center' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 18,
+        alignItems: 'center',
+        width: '100%',
+        maxWidth: '100%',
+        overflowX: 'hidden',
+        padding: '0 4px',
+        boxSizing: 'border-box',
+      }}
+    >
       {/* Заголовок */}
       <div
         style={{
           background: 'rgba(255,255,255,0.95)',
           backdropFilter: 'blur(12px)',
           borderRadius: 24,
-          padding: 'clamp(16px, 2.5vh, 28px) clamp(24px, 4vw, 48px)',
+          padding: 'clamp(16px, 2.5vh, 28px) clamp(20px, 4vw, 48px)',
           boxShadow: `0 16px 40px ${ACCENT}35`,
           border: `3px solid ${ACCENT}`,
-          maxWidth: 1000,
+          maxWidth: '100%',
           width: '100%',
           textAlign: 'center',
+          boxSizing: 'border-box',
         }}
       >
-        <h2 style={{ marginBottom: 8, fontSize: 'clamp(1.4rem, 2.8vw, 2rem)', color: '#2A6CC0' }}>
+        <h2 style={{ marginBottom: 8, fontSize: 'clamp(1.3rem, 5vw, 2rem)', color: '#2A6CC0' }}>
           📰 Найди фейк
         </h2>
-        <p style={{ color: 'var(--text-soft)', fontSize: 'clamp(1rem, 1.4vw, 1.2rem)', margin: 0 }}>
+        <p style={{ color: 'var(--text-soft)', fontSize: 'clamp(0.9rem, 3.5vw, 1.2rem)', margin: 0, lineHeight: 1.4 }}>
           Среди трёх новостей — <b>одна фейковая</b>. Найди её!
         </p>
       </div>
@@ -162,10 +194,11 @@ export default function Mission05_Mirage({ onSuccess }) {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: 18,
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
+          gap: 16,
           width: '100%',
-          maxWidth: 1150,
+          maxWidth: '100%',
+          boxSizing: 'border-box',
         }}
       >
         {news.map(n => {
@@ -206,36 +239,55 @@ export default function Mission05_Mirage({ onSuccess }) {
                 textAlign: 'left',
                 fontFamily: 'inherit',
                 position: 'relative',
+                width: '100%',
+                maxWidth: '100%',
+                boxSizing: 'border-box',
               }}
             >
               <div
                 style={{
-                  padding: '12px 18px',
+                  padding: 'clamp(10px, 2.5vw, 16px) clamp(12px, 3vw, 18px)',
                   background: 'linear-gradient(135deg, #F0F7FF, #E2EEFB)',
                   borderBottom: '3px solid #D5E5F5',
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
+                  gap: 8,
                 }}
               >
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontWeight: 800, fontSize: '0.95rem', color: 'var(--text-dark)' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, flex: 1 }}>
+                  <span
+                    style={{
+                      fontWeight: 800,
+                      fontSize: 'clamp(0.85rem, 3vw, 0.95rem)',
+                      color: 'var(--text-dark)',
+                      wordBreak: 'break-word',
+                    }}
+                  >
                     {n.sourceLabel}
                   </span>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--text-soft)', fontFamily: 'monospace' }}>
+                  <span
+                    style={{
+                      fontSize: 'clamp(0.7rem, 2.5vw, 0.8rem)',
+                      color: 'var(--text-soft)',
+                      fontFamily: 'monospace',
+                      wordBreak: 'break-all',
+                    }}
+                  >
                     {n.source}
                   </span>
                 </div>
-                <span style={{ fontSize: '1.8rem' }}>{n.emoji}</span>
+                <span style={{ fontSize: 'clamp(1.4rem, 5vw, 1.8rem)', flexShrink: 0 }}>{n.emoji}</span>
               </div>
 
               <div
                 style={{
-                  padding: '18px 22px 12px',
+                  padding: 'clamp(12px, 3vw, 22px) clamp(12px, 3vw, 22px) 8px',
                   fontWeight: 800,
-                  fontSize: 'clamp(1.1rem, 1.6vw, 1.35rem)',
+                  fontSize: 'clamp(1rem, 4vw, 1.35rem)',
                   color: 'var(--text-dark)',
                   lineHeight: 1.3,
+                  wordBreak: 'break-word',
                 }}
               >
                 {n.title}
@@ -243,11 +295,12 @@ export default function Mission05_Mirage({ onSuccess }) {
 
               <div
                 style={{
-                  padding: '0 22px 20px',
-                  fontSize: 'clamp(0.95rem, 1.2vw, 1.05rem)',
+                  padding: '0 clamp(12px, 3vw, 22px) clamp(14px, 3vw, 20px)',
+                  fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)',
                   color: 'var(--text-soft)',
-                  lineHeight: 1.55,
+                  lineHeight: 1.5,
                   flex: 1,
+                  wordBreak: 'break-word',
                 }}
               >
                 {n.text}
@@ -264,9 +317,9 @@ export default function Mission05_Mirage({ onSuccess }) {
                     right: '-30px',
                     background: DANGER,
                     color: 'white',
-                    padding: '10px 40px',
+                    padding: '8px 30px',
                     fontWeight: 900,
-                    fontSize: '1.3rem',
+                    fontSize: 'clamp(0.9rem, 3vw, 1.3rem)',
                     letterSpacing: '0.1em',
                     boxShadow: '0 8px 24px rgba(232,92,92,0.55)',
                     pointerEvents: 'none',
@@ -288,7 +341,7 @@ export default function Mission05_Mirage({ onSuccess }) {
             variant="primary"
             className="btn-xl"
             disabled={!selectedNews}
-            style={{ background: ACCENT, color: 'white', fontSize: '1.35rem', padding: '18px 42px' }}
+            style={{ background: ACCENT, color: 'white' }}
           >
             🔍 Проверить новость
           </Button>
@@ -298,56 +351,58 @@ export default function Mission05_Mirage({ onSuccess }) {
       {/* Ошибка при выборе новости */}
       <AnimatePresence>
         {checkedNews && !isNewsCorrect && (
-          <ScrollTo trigger={checkedNews}>
+          <div ref={resultRef} style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               style={{
-                maxWidth: 850,
+                maxWidth: '100%',
                 width: '100%',
                 background: 'white',
                 borderLeft: `10px solid ${DANGER}`,
                 borderRadius: 20,
-                padding: 'clamp(18px, 3vh, 26px)',
+                padding: 'clamp(16px, 3vh, 26px)',
                 boxShadow: '0 12px 32px rgba(232,92,92,0.25)',
                 textAlign: 'center',
+                boxSizing: 'border-box',
               }}
             >
-              <h3 style={{ color: DANGER, marginBottom: 10, fontSize: 'clamp(1.2rem, 2vw, 1.5rem)' }}>
+              <h3 style={{ color: DANGER, marginBottom: 10, fontSize: 'clamp(1.1rem, 4vw, 1.5rem)' }}>
                 ❌ Это настоящая новость
               </h3>
-              <p style={{ fontSize: 'clamp(1rem, 1.3vw, 1.15rem)', marginBottom: 18 }}>
+              <p style={{ fontSize: 'clamp(0.95rem, 3.5vw, 1.15rem)', marginBottom: 18, wordBreak: 'break-word' }}>
                 Присмотрись к новости про Wi-Fi — у неё подозрительный источник и слишком громкий заголовок.
               </p>
               <Button
                 onClick={handleRetryNews}
                 variant="primary"
                 className="btn-xl"
-                style={{ background: ACCENT, color: 'white', fontSize: '1.25rem', padding: '16px 36px' }}
+                style={{ background: ACCENT, color: 'white' }}
               >
                 🔄 Попробовать снова
               </Button>
             </motion.div>
-          </ScrollTo>
+          </div>
         )}
       </AnimatePresence>
 
-      {/* Правильный выбор — спрашиваем о признаках */}
+      {/* Правильный выбор — признаки */}
       <AnimatePresence>
         {checkedNews && isNewsCorrect && (
-          <ScrollTo trigger={checkedNews}>
+          <div ref={reasonsRef} style={{ width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               style={{
-                maxWidth: 1050,
+                maxWidth: '100%',
                 width: '100%',
                 background: 'rgba(255,255,255,0.95)',
                 backdropFilter: 'blur(12px)',
                 borderLeft: `10px solid #4CB86C`,
                 borderRadius: 24,
-                padding: 'clamp(20px, 3.5vh, 32px)',
+                padding: 'clamp(18px, 3.5vh, 32px)',
                 boxShadow: '0 20px 50px rgba(76,184,108,0.25)',
+                boxSizing: 'border-box',
               }}
             >
               <h3
@@ -355,7 +410,7 @@ export default function Mission05_Mirage({ onSuccess }) {
                   color: '#2A8B4E',
                   marginBottom: 10,
                   textAlign: 'center',
-                  fontSize: 'clamp(1.4rem, 2.4vw, 1.8rem)',
+                  fontSize: 'clamp(1.2rem, 4vw, 1.8rem)',
                 }}
               >
                 ✅ Молодец, ты нашёл фейк!
@@ -365,7 +420,7 @@ export default function Mission05_Mirage({ onSuccess }) {
                   textAlign: 'center',
                   color: 'var(--text-soft)',
                   marginBottom: 22,
-                  fontSize: 'clamp(1rem, 1.3vw, 1.15rem)',
+                  fontSize: 'clamp(0.9rem, 3.5vw, 1.15rem)',
                 }}
               >
                 А теперь объясни: <b>какие признаки выдают фейк?</b>
@@ -376,9 +431,10 @@ export default function Mission05_Mirage({ onSuccess }) {
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))',
                   gap: 14,
                   marginBottom: 22,
+                  boxSizing: 'border-box',
                 }}
               >
                 {reasons.map(r => {
@@ -414,7 +470,7 @@ export default function Mission05_Mirage({ onSuccess }) {
                         borderRadius: 18,
                         background: bg,
                         boxShadow: `0 8px 22px ${sh}`,
-                        padding: 'clamp(14px, 2vh, 20px)',
+                        padding: 'clamp(12px, 2.5vh, 20px)',
                         fontFamily: 'inherit',
                         textAlign: 'left',
                         transition: 'all 0.2s',
@@ -422,6 +478,9 @@ export default function Mission05_Mirage({ onSuccess }) {
                         flexDirection: 'column',
                         gap: 8,
                         position: 'relative',
+                        width: '100%',
+                        maxWidth: '100%',
+                        boxSizing: 'border-box',
                       }}
                     >
                       {isSel && !checkedReason && (
@@ -440,6 +499,7 @@ export default function Mission05_Mirage({ onSuccess }) {
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
+                            flexShrink: 0,
                           }}
                         >
                           ✓
@@ -449,9 +509,10 @@ export default function Mission05_Mirage({ onSuccess }) {
                       <div
                         style={{
                           fontWeight: 800,
-                          fontSize: 'clamp(1rem, 1.3vw, 1.15rem)',
+                          fontSize: 'clamp(0.95rem, 3.5vw, 1.15rem)',
                           color: 'var(--text-dark)',
                           paddingRight: 32,
+                          wordBreak: 'break-word',
                         }}
                       >
                         {r.label}
@@ -459,9 +520,10 @@ export default function Mission05_Mirage({ onSuccess }) {
                       {checkedReason && (
                         <div
                           style={{
-                            fontSize: 'clamp(0.85rem, 1.1vw, 0.95rem)',
+                            fontSize: 'clamp(0.8rem, 3vw, 0.95rem)',
                             color: isCorrect ? '#2A8B4E' : '#C33C3C',
                             lineHeight: 1.5,
+                            wordBreak: 'break-word',
                           }}
                         >
                           <b>{isCorrect ? '✅ Верно: ' : '❌ Неверно: '}</b>
@@ -477,7 +539,7 @@ export default function Mission05_Mirage({ onSuccess }) {
                 <div
                   style={{
                     textAlign: 'center',
-                    fontSize: 'clamp(1rem, 1.3vw, 1.15rem)',
+                    fontSize: 'clamp(0.9rem, 3.5vw, 1.15rem)',
                     marginBottom: 16,
                     color: isReasonPerfect ? '#2A8B4E' : '#C33C3C',
                     fontWeight: 700,
@@ -496,7 +558,7 @@ export default function Mission05_Mirage({ onSuccess }) {
                     variant="primary"
                     className="btn-xl"
                     disabled={selectedReasons.length === 0}
-                    style={{ background: ACCENT, color: 'white', fontSize: '1.25rem', padding: '16px 36px' }}
+                    style={{ background: ACCENT, color: 'white' }}
                   >
                     🔍 Проверить ответ ({selectedReasons.length})
                   </Button>
@@ -508,7 +570,7 @@ export default function Mission05_Mirage({ onSuccess }) {
                     onClick={handleRetryReason}
                     variant="primary"
                     className="btn-xl"
-                    style={{ background: ACCENT, color: 'white', fontSize: '1.25rem', padding: '16px 36px' }}
+                    style={{ background: ACCENT, color: 'white' }}
                   >
                     🔄 Попробовать снова
                   </Button>
@@ -520,14 +582,14 @@ export default function Mission05_Mirage({ onSuccess }) {
                     onClick={handleContinue}
                     variant="primary"
                     className="btn-xl"
-                    style={{ background: ACCENT, color: 'white', fontSize: '1.35rem', padding: '18px 42px' }}
+                    style={{ background: ACCENT, color: 'white' }}
                   >
                     Продолжить →
                   </Button>
                 </div>
               )}
             </motion.div>
-          </ScrollTo>
+          </div>
         )}
       </AnimatePresence>
     </div>
