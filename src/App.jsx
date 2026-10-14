@@ -25,7 +25,7 @@ export default function App() {
         <Route path="/certificate" element={<CertificateScreen />} />
       </Routes>
 
-      <SoundToggle position="bottom-right" />
+      <SoundToggle position="top-right" />
     </>
   )
 }

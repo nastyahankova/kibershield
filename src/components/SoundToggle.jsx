@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSound } from '../context/SoundContext'
 
-export default function SoundToggle({ position = 'bottom-right' }) {
+export default function SoundToggle({ position = 'top-right' }) {
   const { enabled, toggleSound } = useSound()
   const [isMobile, setIsMobile] = useState(false)
   const [isPressed, setIsPressed] = useState(false)
@@ -14,17 +14,17 @@ export default function SoundToggle({ position = 'bottom-right' }) {
   }, [])
 
   const positions = {
-    'bottom-left': {
-      bottom: isMobile ? 16 : 16,
-      left: 16,
+    'top-right': {
+      top: isMobile ? 10 : 22,
+      right: isMobile ? 10 : 22,
     },
     'bottom-right': {
-      bottom: isMobile ? 80 : 16,   // на мобильных поднимаем на 80px
-      right: isMobile ? 8 : 16,      // чуть ближе к краю
+      bottom: isMobile ? 80 : 16,
+      right: isMobile ? 8 : 16,
     },
-    'top-right': {
-      top: isMobile ? 12 : 22,
-      right: isMobile ? 12 : 22,
+    'bottom-left': {
+      bottom: 16,
+      left: 16,
     },
   }
 
@@ -55,17 +55,9 @@ export default function SoundToggle({ position = 'bottom-right' }) {
         justifyContent: 'center',
         fontSize: isMobile ? '1.15rem' : '1.4rem',
         zIndex: 300,
-        opacity: isPressed ? 1 : 0.7,
+        opacity: isPressed ? 1 : 0.75,
         transform: isPressed ? 'scale(1.1)' : 'scale(1)',
         transition: 'opacity 0.2s, transform 0.15s, border-color 0.2s',
-      }}
-      onMouseEnter={e => {
-        e.currentTarget.style.opacity = '1'
-        e.currentTarget.style.borderColor = 'var(--accent-blue)'
-      }}
-      onMouseLeave={e => {
-        e.currentTarget.style.opacity = '0.7'
-        e.currentTarget.style.borderColor = 'rgba(168, 216, 234, 0.9)'
       }}
     >
       {enabled ? '🔊' : '🔇'}

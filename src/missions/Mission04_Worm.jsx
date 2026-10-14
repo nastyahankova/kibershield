@@ -271,11 +271,16 @@ export default function Mission04_Worm({ onSuccess }) {
                 <div
                   style={{
                     position: 'absolute',
-                    top: -8, left: -8,
-                    background: ACCENT, color: 'white',
-                    fontSize: 'clamp(0.5rem, 1.6vw, 0.7rem)', fontWeight: 800,
-                    padding: '2px 6px', borderRadius: 6,
-                    boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
+                    top: 4,
+                    left: 4,
+                    background: ACCENT,
+                    color: 'white',
+                    fontSize: 'clamp(0.5rem, 1.8vw, 0.7rem)',
+                    fontWeight: 800,
+                    padding: '2px 6px',
+                    borderRadius: 6,
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+                    zIndex: 2,
                   }}
                 >
                   СТАРТ
@@ -285,11 +290,16 @@ export default function Mission04_Worm({ onSuccess }) {
                 <div
                   style={{
                     position: 'absolute',
-                    top: -8, right: -8,
-                    background: '#F5A623', color: 'white',
-                    fontSize: 'clamp(0.5rem, 1.6vw, 0.7rem)', fontWeight: 800,
-                    padding: '2px 6px', borderRadius: 6,
-                    boxShadow: '0 4px 10px rgba(0,0,0,0.15)',
+                    top: 4,
+                    right: 4,
+                    background: '#F5A623',
+                    color: 'white',
+                    fontSize: 'clamp(0.5rem, 1.8vw, 0.7rem)',
+                    fontWeight: 800,
+                    padding: '2px 6px',
+                    borderRadius: 6,
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+                    zIndex: 2,
                   }}
                 >
                   ФИНИШ
