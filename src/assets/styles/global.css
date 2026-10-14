@@ -1,0 +1,180 @@
+@import './variables.css';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg-main);
+  color: var(--text-dark);
+  line-height: 1.6;
+  font-size: 18px;
+  font-weight: 600;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1, h2, h3 {
+  font-family: 'Comfortaa', 'Nunito', sans-serif;
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--text-dark);
+}
+
+h1 { font-size: 3rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.4rem; }
+
+p {
+  font-size: 1.15rem;
+  line-height: 1.65;
+  font-weight: 600;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* ============ Кнопки ============ */
+.btn {
+  padding: 18px 40px;
+  border-radius: 16px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-family: 'Nunito', sans-serif;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s;
+  box-shadow: 0 6px 18px rgba(46, 58, 89, 0.12);
+  letter-spacing: 0.01em;
+  min-height: 48px; /* для удобного тапа */
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 26px rgba(46, 58, 89, 0.18);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #5BA8D4, #4A90E2);
+  color: white;
+}
+
+.btn-secondary {
+  background: white;
+  color: var(--text-dark);
+  border: 2.5px solid var(--pastel-blue);
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent-blue);
+  background: #F5FBFF;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #E57373, #D45A5A);
+  color: white;
+}
+
+/* ============ Карточки ============ */
+.card {
+  background: var(--bg-card);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 12px 36px rgba(46, 58, 89, 0.15);
+}
+
+/* ============ Экраны ============ */
+.screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  position: relative;
+}
+
+/* ============ Вспомогательные классы ============ */
+.btn-full { width: 100%; }
+
+.btn-xl {
+  padding: 20px 40px;
+  font-size: 1.35rem;
+  border-radius: 18px;
+}
+
+/* ============ Планшеты (до 1024px) ============ */
+@media (max-width: 1024px) {
+  body { font-size: 17px; }
+  h1 { font-size: 2.4rem; }
+  h2 { font-size: 1.8rem; }
+  h3 { font-size: 1.3rem; }
+}
+
+/* ============ Мобильные (до 768px) ============ */
+@media (max-width: 768px) {
+  body { font-size: 16px; }
+  h1 { font-size: 1.9rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.2rem; }
+  p { font-size: 1rem; line-height: 1.55; }
+  .screen { padding: 20px 14px; }
+  .btn {
+    padding: 15px 28px;
+    font-size: 1.05rem;
+    width: 100%;
+    max-width: 340px;
+  }
+  .btn-xl {
+    padding: 16px 28px;
+    font-size: 1.1rem;
+  }
+  .card { padding: 22px; }
+}
+
+/* ============ Маленькие телефоны (до 480px) ============ */
+@media (max-width: 480px) {
+  body { font-size: 15px; }
+  h1 { font-size: 1.7rem; letter-spacing: -0.01em; }
+  h2 { font-size: 1.35rem; }
+  h3 { font-size: 1.1rem; }
+  p { font-size: 0.98rem; line-height: 1.5; }
+
+  .screen { padding: 16px 10px; }
+  .card {
+    padding: 18px;
+    border-radius: 20px;
+  }
+  .btn {
+    padding: 14px 22px;
+    font-size: 1rem;
+    border-radius: 14px;
+    min-height: 48px;
+  }
+  .btn-xl {
+    padding: 15px 24px;
+    font-size: 1.05rem;
+    border-radius: 14px;
+  }
+}
+
+/* ============ Ландшафт телефона ============ */
+@media (max-width: 900px) and (max-height: 500px) and (orientation: landscape) {
+  .screen { padding: 12px; }
+  body { font-size: 14px; }
+}

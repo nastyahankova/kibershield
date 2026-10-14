@@ -1,0 +1,51 @@
+:root {
+  /* Пастельные цвета БРПО (чуть насыщеннее) */
+  --pastel-blue:    #9CD3EC;
+  --pastel-indigo:  #AABCEA;
+  --pastel-green:   #A5E0B8;
+  --pastel-yellow:  #FFEBA0;
+  --pastel-orange:  #FFCC91;
+  --pastel-red:     #FFA8A8;
+  --pastel-purple:  #C8A8EB;
+
+  /* Базовые */
+  --bg-main:        #FEFCF8;
+  --bg-card:        #FFFFFF;
+  --text-dark:      #2E3A59;
+  --text-soft:      #5A6885;
+
+  /* Акценты — насыщенные */
+  --accent-blue:    #4A90E2;
+  --accent-blue-2:  #5BA8D4;
+  --accent-green:   #4CB86C;
+  --accent-red:     #E85C5C;
+  --accent-yellow:  #F5C242;
+  --accent-purple:  #9B6BC9;
+  --accent-pink:    #EE85B5;
+
+  /* Градиенты БРПО (радуга из логотипа) */
+  --grad-rainbow: linear-gradient(
+    135deg,
+    #A8D8EA 0%,
+    #A5E0B8 25%,
+    #FFEBA0 50%,
+    #FFCC91 70%,
+    #FFA8A8 90%,
+    #C8A8EB 100%
+  );
+  --grad-bg: linear-gradient(
+    135deg,
+    #EAF4FC 0%,
+    #FFF7DC 50%,
+    #FCE9F2 100%
+  );
+
+  /* Тени */
+  --shadow-soft:    0 6px 18px rgba(46, 58, 89, 0.10);
+  --shadow-card:    0 12px 36px rgba(46, 58, 89, 0.15);
+
+  /* Скругления */
+  --radius-sm:      10px;
+  --radius-md:      16px;
+  --radius-lg:      24px;
+}
