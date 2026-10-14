@@ -13,7 +13,6 @@ export function SoundProvider({ children }) {
     }
   })
 
-  // Какой фоновый трек сейчас играет: 'main' или 'battle'
   const [bgTrack, setBgTrack] = useState('main')
 
   const bgMainRef = useRef(null)
@@ -25,7 +24,7 @@ export function SoundProvider({ children }) {
   const victorySoundRef = useRef(null)
   const [loaded, setLoaded] = useState(false)
 
-  // Создаём Audio-объекты один раз
+  // Создаём Audio-объекты ОДИН РАЗ
   useEffect(() => {
     bgMainRef.current = new Audio('/sounds/bg-music.mp3')
     bgMainRef.current.loop = true
@@ -39,7 +38,7 @@ export function SoundProvider({ children }) {
     clickSoundRef.current.volume = 0.22
 
     typingSoundRef.current = new Audio('/sounds/typing.mp3')
-    typingSoundRef.current.volume = 0.12
+    typingSoundRef.current.volume = 0.35
 
     successSoundRef.current = new Audio('/sounds/success.mp3')
     successSoundRef.current.volume = 0.5
@@ -129,18 +128,46 @@ export function SoundProvider({ children }) {
     }
   }, [enabled, loaded, bgTrack])
 
-  const safePlay = (audioRef) => {
-    if (!enabled || !audioRef.current) return
-    audioRef.current.currentTime = 0
-    const playPromise = audioRef.current.play()
-    if (playPromise && playPromise.catch) playPromise.catch(() => {})
+  const safePlay = (audioRef, name = 'sound', restart = true) => {
+    if (!enabled) {
+      console.log(`🔇 ${name} — звук выключен`)
+      return
+    }
+    if (!audioRef.current) {
+      console.log(`❌ ${name} — объект не создан`)
+      return
+    }
+    const audio = audioRef.current
+
+    // Если звук уже играет и мы не хотим перезапуска — пропускаем
+    if (!restart && !audio.paused) return
+
+    try {
+      if (restart) audio.currentTime = 0
+      const playPromise = audio.play()
+      if (playPromise && playPromise.then) {
+        playPromise
+          .then(() => console.log(`▶ Играет: ${name}`))
+          .catch(err => console.log(`❌ Ошибка ${name}:`, err.message))
+      }
+    } catch (err) {
+      console.log(`❌ Ошибка ${name}:`, err.message)
+    }
   }
 
-  const playClick = () => safePlay(clickSoundRef)
-  const playTyping = () => safePlay(typingSoundRef)
-  const playSuccess = () => safePlay(successSoundRef)
-  const playFail = () => safePlay(failSoundRef)
-  const playVictory = () => safePlay(victorySoundRef)
+  const playClick = () => safePlay(clickSoundRef, 'click')
+  const playTyping = () => safePlay(typingSoundRef, 'typing', false)  // не перезапускаем
+  const playSuccess = () => safePlay(successSoundRef, 'success')
+  const playFail = () => safePlay(failSoundRef, 'fail')
+  const playVictory = () => safePlay(victorySoundRef, 'victory')
+
+  // Останавливаем звук печати, когда текст допечатан
+  const stopTyping = () => {
+    if (typingSoundRef.current) {
+      typingSoundRef.current.pause()
+      typingSoundRef.current.currentTime = 0
+    }
+  }
 
   const toggleSound = () => setEnabled(prev => !prev)
 
@@ -154,6 +181,7 @@ export function SoundProvider({ children }) {
       toggleSound,
       playClick,
       playTyping,
+      stopTyping,
       playSuccess,
       playFail,
       playVictory,

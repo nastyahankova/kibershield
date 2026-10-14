@@ -29,7 +29,6 @@ export default function Prologue() {
   const navigate = useNavigate()
   const { startGame, progress } = useGame()
 
-  // Отслеживаем ширину экрана
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
@@ -89,7 +88,6 @@ export default function Prologue() {
       {/* Огонёк — крупный, слева (только на больших экранах) */}
       {!isMobile && (
         <motion.img
-          key={step}
           src="/images/ogonek.png"
           alt="Огонёк"
           initial={{ opacity: 0, x: -60, scale: 0.9 }}
@@ -101,7 +99,7 @@ export default function Prologue() {
             scale: [1, 1.04, 1],
           }}
           transition={{
-            opacity: { duration: 0.6, delay: 0.1 },
+            opacity: { duration: 0.6 },
             x: { type: 'spring', stiffness: 100, damping: 20 },
             y: { duration: 3.5, repeat: Infinity, ease: 'easeInOut' },
             rotate: { duration: 4, repeat: Infinity, ease: 'easeInOut' },
@@ -123,7 +121,6 @@ export default function Prologue() {
 
       {/* Диалоговая карточка */}
       <motion.div
-        key={step}
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: 'spring', stiffness: 100 }}
@@ -146,11 +143,17 @@ export default function Prologue() {
         {/* Огонёк внутри карточки — только на мобильных */}
         {isMobile && (
           <motion.img
-            key={step}
             src="/images/ogonek.png"
             alt="Огонёк"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
+            animate={{
+              y: [0, -10, 0],
+              rotate: [0, 3, -3, 0],
+            }}
+            transition={{
+              duration: 3.5,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
             style={{
               height: 'clamp(90px, 15vh, 140px)',
               objectFit: 'contain',
@@ -188,7 +191,7 @@ export default function Prologue() {
             margin: 0,
           }}
         >
-          <TypewriterText text={current.text} speed={25} />
+          <TypewriterText key={step} text={current.text} speed={25} />
         </p>
 
         <div
