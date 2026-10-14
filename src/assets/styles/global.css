@@ -11,10 +11,10 @@ html, body, #root {
 }
 
 body {
-  font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+  font-family: 'Nunito', 'Segoe UI', system-ui, -apple-system, sans-serif;
   background: var(--bg-main);
   color: var(--text-dark);
-  line-height: 1.6;
+  line-height: 1.7;
   font-size: 18px;
   font-weight: 600;
   -webkit-font-smoothing: antialiased;
@@ -26,11 +26,12 @@ h1, h2, h3 {
   font-weight: 800;
   line-height: 1.15;
   color: var(--text-dark);
+  letter-spacing: -0.02em;
 }
 
-h1 { font-size: 3rem; }
-h2 { font-size: 2rem; }
-h3 { font-size: 1.4rem; }
+h1 { font-size: 4rem; }
+h2 { font-size: 2.4rem; }
+h3 { font-size: 1.6rem; }
 
 p {
   font-size: 1.15rem;
@@ -57,7 +58,7 @@ button {
   transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s;
   box-shadow: 0 6px 18px rgba(46, 58, 89, 0.12);
   letter-spacing: 0.01em;
-  min-height: 48px; /* для удобного тапа */
+  min-height: 48px;
 }
 
 .btn:hover {
@@ -72,6 +73,10 @@ button {
 .btn-primary {
   background: linear-gradient(135deg, #5BA8D4, #4A90E2);
   color: white;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #4A98C4, #3D82D4);
 }
 
 .btn-secondary {
@@ -90,11 +95,15 @@ button {
   color: white;
 }
 
+.btn-danger:hover {
+  background: linear-gradient(135deg, #D45A5A, #C33C3C);
+}
+
 /* ============ Карточки ============ */
 .card {
   background: var(--bg-card);
   border-radius: 24px;
-  padding: 32px;
+  padding: 36px;
   box-shadow: 0 12px 36px rgba(46, 58, 89, 0.15);
 }
 
@@ -105,7 +114,7 @@ button {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px 24px;
+  padding: 60px 24px;
   position: relative;
 }
 
@@ -121,19 +130,19 @@ button {
 /* ============ Планшеты (до 1024px) ============ */
 @media (max-width: 1024px) {
   body { font-size: 17px; }
-  h1 { font-size: 2.4rem; }
-  h2 { font-size: 1.8rem; }
-  h3 { font-size: 1.3rem; }
+  h1 { font-size: 3rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.4rem; }
 }
 
 /* ============ Мобильные (до 768px) ============ */
 @media (max-width: 768px) {
   body { font-size: 16px; }
-  h1 { font-size: 1.9rem; }
-  h2 { font-size: 1.5rem; }
-  h3 { font-size: 1.2rem; }
+  h1 { font-size: 2.2rem; }
+  h2 { font-size: 1.6rem; }
+  h3 { font-size: 1.25rem; }
   p { font-size: 1rem; line-height: 1.55; }
-  .screen { padding: 20px 14px; }
+  .screen { padding: 30px 16px; }
   .btn {
     padding: 15px 28px;
     font-size: 1.05rem;
@@ -177,26 +186,4 @@ button {
 @media (max-width: 900px) and (max-height: 500px) and (orientation: landscape) {
   .screen { padding: 12px; }
   body { font-size: 14px; }
-}
-/* ============ МОБИЛЬНАЯ АДАПТАЦИЯ МИССИЙ ============ */
-@media (max-width: 900px) {
-  /* Все grid-контейнеры внутри миссий — одна колонка */
-  [data-mission] > * > [style*="grid-template-columns"],
-  [data-mission] [style*="grid-template-columns"] {
-    grid-template-columns: 1fr !important;
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
-  /* Двухколоночные контейнеры (flex) — вертикально */
-  [data-mission] [style*="flex-direction: row"] {
-    flex-direction: column !important;
-    width: 100% !important;
-  }
-
-  /* Все широкие блоки — не выходят за экран */
-  [data-mission] > * {
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-  }
 }

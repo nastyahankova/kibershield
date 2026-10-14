@@ -1,7 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Button from '../components/ui/Button.jsx'
-import ScrollTo from '../components/ScrollTo.jsx'
 import { useSound } from '../context/SoundContext.jsx'
 
 const actions = [
@@ -57,6 +56,16 @@ export default function Mission03_Shadow({ onSuccess }) {
   const [selected, setSelected] = useState([])
   const [checked, setChecked] = useState(false)
   const { playSuccess, playFail } = useSound()
+
+  // Автоскролл к результату
+  const resultRef = useRef(null)
+  useEffect(() => {
+    if (checked && resultRef.current) {
+      setTimeout(() => {
+        resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 250)
+    }
+  }, [checked])
 
   const toggle = (id) => {
     if (checked) return
@@ -188,7 +197,7 @@ export default function Mission03_Shadow({ onSuccess }) {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
           gap: 14,
           width: '100%',
           maxWidth: 1000,
@@ -320,8 +329,17 @@ export default function Mission03_Shadow({ onSuccess }) {
         )}
       </div>
 
-      {/* Итог с автоскроллом */}
-      <ScrollTo trigger={checked}>
+      {/* Результат — с автоскроллом */}
+      <div
+        ref={resultRef}
+        style={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 16,
+        }}
+      >
         <AnimatePresence>
           {checked && (
             <motion.div
@@ -376,7 +394,7 @@ export default function Mission03_Shadow({ onSuccess }) {
             </motion.div>
           )}
         </AnimatePresence>
-      </ScrollTo>
+      </div>
     </div>
   )
 }

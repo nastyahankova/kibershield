@@ -1,7 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Button from '../components/ui/Button.jsx'
-import ScrollTo from '../components/ScrollTo.jsx'
 import { useSound } from '../context/SoundContext.jsx'
 
 const messages = [
@@ -62,6 +61,16 @@ export default function Mission02_Flood({ onSuccess }) {
   const [selected, setSelected] = useState([])
   const [checked, setChecked] = useState(false)
   const { playSuccess, playFail } = useSound()
+
+  // Автоскролл к результату
+  const resultRef = useRef(null)
+  useEffect(() => {
+    if (checked && resultRef.current) {
+      setTimeout(() => {
+        resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 250)
+    }
+  }, [checked])
 
   const toggleMessage = (id) => {
     if (checked) return
@@ -126,11 +135,11 @@ export default function Mission02_Flood({ onSuccess }) {
         </p>
       </div>
 
-      {/* Сетка */}
+      {/* Сетка SMS */}
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
           gap: 16,
           width: '100%',
           maxWidth: 1100,
@@ -272,8 +281,17 @@ export default function Mission02_Flood({ onSuccess }) {
         )}
       </div>
 
-      {/* Итог с автоскроллом */}
-      <ScrollTo trigger={checked}>
+      {/* Результат — с автоскроллом */}
+      <div
+        ref={resultRef}
+        style={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 16,
+        }}
+      >
         <AnimatePresence>
           {checked && (
             <motion.div
@@ -327,7 +345,7 @@ export default function Mission02_Flood({ onSuccess }) {
             </motion.div>
           )}
         </AnimatePresence>
-      </ScrollTo>
+      </div>
     </div>
   )
 }

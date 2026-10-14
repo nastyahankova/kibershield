@@ -1,7 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Button from '../components/ui/Button.jsx'
-import ScrollTo from '../components/ScrollTo.jsx'
 import { useSound } from '../context/SoundContext.jsx'
 
 const letters = [
@@ -37,6 +36,16 @@ export default function Mission01_Phishing({ onSuccess }) {
   const [showSigns, setShowSigns] = useState(false)
   const { playSuccess, playFail } = useSound()
 
+  // Автоскролл к результату
+  const resultRef = useRef(null)
+  useEffect(() => {
+    if (checked && resultRef.current) {
+      setTimeout(() => {
+        resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 250)
+    }
+  }, [checked, showSigns])
+
   const handleCheck = () => {
     if (!selected) return
     setChecked(true)
@@ -52,6 +61,7 @@ export default function Mission01_Phishing({ onSuccess }) {
   const handleRetry = () => {
     setSelected(null)
     setChecked(false)
+    setShowSigns(false)
   }
 
   const isCorrect = checked && letters.find(l => l.id === selected)?.isFake
@@ -92,7 +102,7 @@ export default function Mission01_Phishing({ onSuccess }) {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
           gap: 20,
           width: '100%',
           maxWidth: 1100,
@@ -219,7 +229,7 @@ export default function Mission01_Phishing({ onSuccess }) {
         })}
       </div>
 
-      {/* Кнопки */}
+      {/* Кнопки управления */}
       <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', justifyContent: 'center', marginTop: 4 }}>
         {!checked && (
           <Button onClick={handleCheck} variant="primary" className="btn-xl" disabled={!selected}>
@@ -233,36 +243,37 @@ export default function Mission01_Phishing({ onSuccess }) {
         )}
       </div>
 
-      {/* Ошибка */}
-      <AnimatePresence>
-        {checked && !isCorrect && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            style={{
-              maxWidth: 760,
-              width: '100%',
-              background: 'white',
-              borderLeft: '8px solid #E85C5C',
-              borderRadius: 20,
-              padding: 24,
-              boxShadow: '0 12px 30px rgba(232,92,92,0.2)',
-            }}
-          >
-            <h3 style={{ color: '#E85C5C', marginBottom: 10, fontSize: '1.4rem' }}>
-              ❌ Не совсем так
-            </h3>
-            <p style={{ fontSize: '1.1rem', color: 'var(--text-dark)', margin: 0 }}>
-              Это письмо — настоящее. А подделка — письмо про выигрыш iPhone.
-              Присмотрись к нему: незнакомый адрес, странная ссылка. Попробуй ещё!
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Результат — с автоскроллом */}
+      <div ref={resultRef} style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20 }}>
+        {/* Ошибка */}
+        <AnimatePresence>
+          {checked && !isCorrect && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              style={{
+                maxWidth: 760,
+                width: '100%',
+                background: 'white',
+                borderLeft: '8px solid #E85C5C',
+                borderRadius: 20,
+                padding: 24,
+                boxShadow: '0 12px 30px rgba(232,92,92,0.2)',
+              }}
+            >
+              <h3 style={{ color: '#E85C5C', marginBottom: 10, fontSize: '1.4rem' }}>
+                ❌ Не совсем так
+              </h3>
+              <p style={{ fontSize: '1.1rem', color: 'var(--text-dark)', margin: 0 }}>
+                Это письмо — настоящее. А подделка — письмо про выигрыш iPhone.
+                Присмотрись к нему: незнакомый адрес, странная ссылка. Попробуй ещё!
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-      {/* Успех + признаки с автоскроллом */}
-      <ScrollTo trigger={showSigns}>
+        {/* Успех + признаки */}
         <AnimatePresence>
           {showSigns && (
             <motion.div
@@ -303,7 +314,7 @@ export default function Mission01_Phishing({ onSuccess }) {
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
                   gap: 16,
                   marginBottom: 28,
                 }}
@@ -348,7 +359,7 @@ export default function Mission01_Phishing({ onSuccess }) {
             </motion.div>
           )}
         </AnimatePresence>
-      </ScrollTo>
+      </div>
     </div>
   )
 }
