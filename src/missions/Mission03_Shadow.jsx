@@ -57,7 +57,6 @@ export default function Mission03_Shadow({ onSuccess }) {
   const [checked, setChecked] = useState(false)
   const { playSuccess, playFail } = useSound()
 
-  // Автоскролл к результату
   const resultRef = useRef(null)
   useEffect(() => {
     if (checked && resultRef.current) {
@@ -99,25 +98,38 @@ export default function Mission03_Shadow({ onSuccess }) {
   const isPerfect = correctlyFound === correctIds.length && wrongFound === 0
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 18, alignItems: 'center' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 18,
+        alignItems: 'center',
+        width: '100%',
+        maxWidth: '100%',
+        overflowX: 'hidden',
+        padding: '0 4px',
+        boxSizing: 'border-box',
+      }}
+    >
       {/* Заголовок */}
       <div
         style={{
           background: 'rgba(255,255,255,0.95)',
           backdropFilter: 'blur(12px)',
           borderRadius: 24,
-          padding: 'clamp(16px, 2.5vh, 28px) clamp(24px, 4vw, 48px)',
+          padding: 'clamp(16px, 2.5vh, 28px) clamp(20px, 4vw, 48px)',
           boxShadow: `0 16px 40px ${ACCENT}40`,
           border: `3px solid ${ACCENT}`,
-          maxWidth: 1000,
+          maxWidth: '100%',
           width: '100%',
           textAlign: 'center',
+          boxSizing: 'border-box',
         }}
       >
-        <h2 style={{ marginBottom: 8, fontSize: 'clamp(1.4rem, 2.8vw, 2rem)', color: ACCENT_DARK }}>
+        <h2 style={{ marginBottom: 8, fontSize: 'clamp(1.3rem, 5vw, 2rem)', color: ACCENT_DARK }}>
           🕵️ Кибер-детектив
         </h2>
-        <p style={{ color: 'var(--text-soft)', fontSize: 'clamp(1rem, 1.4vw, 1.2rem)', margin: 0 }}>
+        <p style={{ color: 'var(--text-soft)', fontSize: 'clamp(0.9rem, 3.5vw, 1.2rem)', margin: 0, lineHeight: 1.4 }}>
           Твой одноклассник получает обидные сообщения. Выбери <b>3 правильных действия</b>, которые ему помогут.
         </p>
       </div>
@@ -127,11 +139,13 @@ export default function Mission03_Shadow({ onSuccess }) {
         style={{
           background: 'white',
           borderRadius: 24,
-          padding: 'clamp(16px, 2.5vh, 24px)',
+          padding: 'clamp(14px, 2.5vh, 24px)',
           boxShadow: `0 12px 32px ${ACCENT}30`,
           border: `2px solid ${ACCENT_LIGHT}`,
-          maxWidth: 720,
+          maxWidth: '100%',
           width: '100%',
+          boxSizing: 'border-box',
+          overflow: 'hidden',
         }}
       >
         <div
@@ -150,6 +164,7 @@ export default function Mission03_Shadow({ onSuccess }) {
               background: ACCENT,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: '1.4rem',
+              flexShrink: 0,
             }}
           >
             💬
@@ -160,7 +175,7 @@ export default function Mission03_Shadow({ onSuccess }) {
           </div>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%' }}>
           <ChatBubble from="Обидчик" color="#E85C5C">
             Эй, ты чего такой странный? Все над тобой смеются 😂
           </ChatBubble>
@@ -182,13 +197,14 @@ export default function Mission03_Shadow({ onSuccess }) {
           background: ACCENT_LIGHT,
           border: `3px solid ${ACCENT}`,
           borderRadius: 20,
-          padding: '14px 24px',
-          maxWidth: 1000,
+          padding: 'clamp(12px, 2.5vh, 20px) clamp(16px, 4vw, 24px)',
+          maxWidth: '100%',
           width: '100%',
           textAlign: 'center',
+          boxSizing: 'border-box',
         }}
       >
-        <div style={{ fontSize: 'clamp(1.05rem, 1.6vw, 1.35rem)', fontWeight: 800, color: ACCENT_DARK }}>
+        <div style={{ fontSize: 'clamp(1rem, 4vw, 1.35rem)', fontWeight: 800, color: ACCENT_DARK }}>
           ❓ Что делать однокласснику?
         </div>
       </div>
@@ -197,10 +213,11 @@ export default function Mission03_Shadow({ onSuccess }) {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))',
           gap: 14,
           width: '100%',
-          maxWidth: 1000,
+          maxWidth: '100%',
+          boxSizing: 'border-box',
         }}
       >
         {actions.map(action => {
@@ -235,7 +252,7 @@ export default function Mission03_Shadow({ onSuccess }) {
                 borderRadius: 20,
                 background: bgColor,
                 boxShadow: `0 10px 26px ${shadowColor}`,
-                padding: 'clamp(16px, 2.2vh, 22px) clamp(16px, 2vw, 24px)',
+                padding: 'clamp(14px, 2.2vh, 22px) clamp(14px, 3vw, 24px)',
                 transition: 'all 0.2s',
                 display: 'flex',
                 flexDirection: 'column',
@@ -243,15 +260,17 @@ export default function Mission03_Shadow({ onSuccess }) {
                 textAlign: 'left',
                 fontFamily: 'inherit',
                 position: 'relative',
+                boxSizing: 'border-box',
+                width: '100%',
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <span style={{ fontSize: 'clamp(1.8rem, 2.5vw, 2.4rem)', lineHeight: 1 }}>
+                <span style={{ fontSize: 'clamp(1.5rem, 5vw, 2.4rem)', lineHeight: 1, flexShrink: 0 }}>
                   {action.emoji}
                 </span>
                 <span
                   style={{
-                    fontSize: 'clamp(1.05rem, 1.4vw, 1.25rem)',
+                    fontSize: 'clamp(0.95rem, 3.5vw, 1.25rem)',
                     fontWeight: 700,
                     color: 'var(--text-dark)',
                     lineHeight: 1.35,
@@ -268,6 +287,7 @@ export default function Mission03_Shadow({ onSuccess }) {
                       background: ACCENT, color: 'white', borderRadius: '50%',
                       width: 30, height: 30, display: 'flex', alignItems: 'center',
                       justifyContent: 'center', fontWeight: 800, fontSize: '1rem',
+                      flexShrink: 0,
                     }}
                   >
                     ✓
@@ -280,7 +300,7 @@ export default function Mission03_Shadow({ onSuccess }) {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   style={{
-                    fontSize: 'clamp(0.9rem, 1.2vw, 1.05rem)',
+                    fontSize: 'clamp(0.85rem, 3vw, 1.05rem)',
                     color: isCorrect ? '#2A8B4E' : '#C33C3C',
                     lineHeight: 1.5,
                     borderTop: `2px dashed ${isCorrect ? '#B5E6C3' : '#F5C5C5'}`,
@@ -308,8 +328,8 @@ export default function Mission03_Shadow({ onSuccess }) {
             style={{
               background: selected.length === 3 ? ACCENT : '#B8A0D8',
               color: 'white',
-              fontSize: '1.35rem',
-              padding: '18px 42px',
+              fontSize: '1.25rem',
+              padding: '16px 36px',
             }}
           >
             {selected.length !== 3
@@ -322,14 +342,14 @@ export default function Mission03_Shadow({ onSuccess }) {
             onClick={handleRetry}
             variant="primary"
             className="btn-xl"
-            style={{ background: ACCENT, color: 'white', fontSize: '1.35rem', padding: '18px 42px' }}
+            style={{ background: ACCENT, color: 'white', fontSize: '1.25rem', padding: '16px 36px' }}
           >
             🔄 Попробовать снова
           </Button>
         )}
       </div>
 
-      {/* Результат — с автоскроллом */}
+      {/* Результат с автоскроллом */}
       <div
         ref={resultRef}
         style={{
@@ -346,14 +366,15 @@ export default function Mission03_Shadow({ onSuccess }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               style={{
-                maxWidth: 900,
+                maxWidth: '100%',
                 width: '100%',
                 background: 'rgba(255,255,255,0.95)',
                 backdropFilter: 'blur(12px)',
                 borderLeft: `10px solid ${isPerfect ? '#4CB86C' : '#E85C5C'}`,
                 borderRadius: 24,
-                padding: 'clamp(20px, 3.5vh, 32px)',
+                padding: 'clamp(18px, 3.5vh, 32px)',
                 boxShadow: `0 20px 50px ${isPerfect ? 'rgba(76,184,108,0.25)' : 'rgba(232,92,92,0.25)'}`,
+                boxSizing: 'border-box',
               }}
             >
               <h3
@@ -361,7 +382,7 @@ export default function Mission03_Shadow({ onSuccess }) {
                   color: isPerfect ? '#2A8B4E' : '#C33C3C',
                   marginBottom: 10,
                   textAlign: 'center',
-                  fontSize: 'clamp(1.3rem, 2.4vw, 1.8rem)',
+                  fontSize: 'clamp(1.2rem, 4vw, 1.8rem)',
                 }}
               >
                 {isPerfect
@@ -373,7 +394,7 @@ export default function Mission03_Shadow({ onSuccess }) {
                   textAlign: 'center',
                   color: 'var(--text-soft)',
                   marginBottom: isPerfect ? 20 : 0,
-                  fontSize: 'clamp(1rem, 1.4vw, 1.15rem)',
+                  fontSize: 'clamp(0.95rem, 3.5vw, 1.15rem)',
                 }}
               >
                 Ты выбрал {correctlyFound} из 3 правильных действий
@@ -385,7 +406,7 @@ export default function Mission03_Shadow({ onSuccess }) {
                     onClick={onSuccess}
                     variant="primary"
                     className="btn-xl"
-                    style={{ background: ACCENT, color: 'white', fontSize: '1.35rem', padding: '18px 42px' }}
+                    style={{ background: ACCENT, color: 'white', fontSize: '1.25rem', padding: '16px 36px' }}
                   >
                     Продолжить →
                   </Button>
@@ -408,6 +429,8 @@ function ChatBubble({ from, color, align = 'left', children }) {
         flexDirection: 'column',
         alignItems: isRight ? 'flex-end' : 'flex-start',
         gap: 4,
+        width: '100%',
+        boxSizing: 'border-box',
       }}
     >
       <span style={{ fontSize: '0.85rem', color, fontWeight: 700, padding: '0 8px' }}>
@@ -415,14 +438,16 @@ function ChatBubble({ from, color, align = 'left', children }) {
       </span>
       <div
         style={{
-          maxWidth: '85%',
+          maxWidth: '90%',
+          wordBreak: 'break-word',
           background: isRight ? '#EAF4FC' : '#FFF0F0',
           color: 'var(--text-dark)',
           padding: '10px 16px',
           borderRadius: isRight ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
-          fontSize: 'clamp(0.95rem, 1.2vw, 1.1rem)',
+          fontSize: 'clamp(0.95rem, 3.5vw, 1.1rem)',
           lineHeight: 1.5,
           border: isRight ? '2px solid #B8D4EE' : '2px solid #F5C5C5',
+          boxSizing: 'border-box',
         }}
       >
         {children}

@@ -4,37 +4,22 @@ import Button from '../components/ui/Button.jsx'
 import ScrollTo from '../components/ScrollTo.jsx'
 import { useSound } from '../context/SoundContext.jsx'
 
-// Сетка 3×3. Индексы:
-//  1 2 3
-//  4 5 6
-//  7 8 9
-//
-// Правильный маршрут: 1 → 2 → 5 → 8 → 9
 const grid = [
   { id: 1, name: 'school1-gorki.by',     label: 'Сайт школы',          emoji: '🏫', safe: true,  reason: 'Официальный сайт школы — безопасный.' },
   { id: 2, name: 'brpo.by',              label: 'БРПО',                emoji: '🔥', safe: true,  reason: 'Официальный сайт БРПО — безопасный.' },
   { id: 3, name: 'free-money.xyz',       label: 'Бесплатные деньги',   emoji: '💰', safe: false, reason: 'Незнакомый сайт с обещанием денег — мошенничество!' },
-
   { id: 4, name: 'kazino-24.top',        label: 'Казино 24',           emoji: '🎰', safe: false, reason: 'Игровые сайты для детей запрещены и опасны.' },
   { id: 5, name: 'edu.by',               label: 'Мин. образования',    emoji: '🎓', safe: true,  reason: 'Официальный образовательный портал.' },
   { id: 6, name: 'virus-download.ru',    label: 'Скачать файл',        emoji: '⚠️', safe: false, reason: 'Файлы с незнакомых сайтов могут содержать вирусы.' },
-
   { id: 7, name: 'prize-win-iphone.xyz', label: 'Выиграл iPhone',      emoji: '📱', safe: false, reason: 'Подозрительный адрес .xyz + обещание приза = мошенничество.' },
   { id: 8, name: 'wiki-pedia.by',        label: 'Энциклопедия',        emoji: '📚', safe: true,  reason: 'Известная онлайн-энциклопедия — безопасно.' },
   { id: 9, name: 'school-library.by',    label: 'Школьная библиотека', emoji: '📖', safe: true,  reason: 'Библиотека школы — проверенный сайт.' },
 ]
 
-// Соседи по сетке 3×3
 const neighbors = {
-  1: [2, 4],
-  2: [1, 3, 5],
-  3: [2, 6],
-  4: [1, 5, 7],
-  5: [2, 4, 6, 8],
-  6: [3, 5, 9],
-  7: [4, 8],
-  8: [5, 7, 9],
-  9: [6, 8],
+  1: [2, 4], 2: [1, 3, 5], 3: [2, 6],
+  4: [1, 5, 7], 5: [2, 4, 6, 8], 6: [3, 5, 9],
+  7: [4, 8], 8: [5, 7, 9], 9: [6, 8],
 }
 
 const ACCENT = '#4CB86C'
@@ -112,7 +97,7 @@ export default function Mission04_Worm({ onSuccess }) {
           background: 'rgba(255,255,255,0.95)',
           backdropFilter: 'blur(12px)',
           borderRadius: 20,
-          padding: 'clamp(12px, 2vh, 24px) clamp(16px, 3vw, 40px)',
+          padding: 'clamp(12px, 2.5vh, 24px) clamp(16px, 4vw, 44px)',
           boxShadow: `0 16px 40px ${ACCENT}35`,
           border: `3px solid ${ACCENT}`,
           maxWidth: '100%',
@@ -121,16 +106,16 @@ export default function Mission04_Worm({ onSuccess }) {
           boxSizing: 'border-box',
         }}
       >
-        <h2 style={{ marginBottom: 8, fontSize: 'clamp(1.2rem, 4.5vw, 1.8rem)', color: '#2A8B4E' }}>
+        <h2 style={{ marginBottom: 6, fontSize: 'clamp(1.2rem, 5vw, 1.9rem)', color: '#2A8B4E' }}>
           🐛 Безопасный путь
         </h2>
-        <p style={{ color: 'var(--text-soft)', fontSize: 'clamp(0.9rem, 3.2vw, 1.1rem)', margin: 0 }}>
+        <p style={{ color: 'var(--text-soft)', fontSize: 'clamp(0.9rem, 3.5vw, 1.15rem)', margin: 0, lineHeight: 1.4 }}>
           Дойди от <b>«Сайта школы»</b> (Старт) до <b>«Школьной библиотеки»</b> (Финиш).
           Двигайся только по <b>соседним</b> сайтам и не попадись на опасные!
         </p>
       </div>
 
-      {/* Статус — компактные плашки */}
+      {/* Статусы */}
       <div
         style={{
           display: 'flex',
@@ -138,7 +123,7 @@ export default function Mission04_Worm({ onSuccess }) {
           flexWrap: 'wrap',
           justifyContent: 'center',
           alignItems: 'center',
-          padding: '0 8px',
+          padding: '0 4px',
         }}
       >
         <StatusPill color={ACCENT} icon="🟢" label={`Пройдено: ${path.length - 1}`} />
@@ -160,11 +145,9 @@ export default function Mission04_Worm({ onSuccess }) {
                 width: '100%',
                 background: 'white',
                 borderLeft: `8px solid ${
-                  message.type === 'safe' || message.type === 'win'
-                    ? ACCENT
-                    : message.type === 'danger' || message.type === 'fail'
-                    ? DANGER
-                    : '#4A90E2'
+                  message.type === 'safe' || message.type === 'win' ? ACCENT
+                  : message.type === 'danger' || message.type === 'fail' ? DANGER
+                  : '#4A90E2'
                 }`,
                 borderRadius: 16,
                 padding: '12px 18px',
@@ -175,7 +158,7 @@ export default function Mission04_Worm({ onSuccess }) {
                     ? 'rgba(74,144,226,0.2)'
                     : 'rgba(76,184,108,0.25)'
                 }`,
-                fontSize: 'clamp(0.9rem, 3vw, 1.1rem)',
+                fontSize: 'clamp(0.9rem, 3.5vw, 1.15rem)',
                 fontWeight: 600,
                 color: 'var(--text-dark)',
                 textAlign: 'center',
@@ -193,9 +176,9 @@ export default function Mission04_Worm({ onSuccess }) {
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: 'clamp(6px, 1.5vw, 16px)',
+          gap: 'clamp(4px, 1.5vw, 14px)',
           width: '100%',
-          maxWidth: '100%',
+          maxWidth: 950,
           padding: '0 4px',
           boxSizing: 'border-box',
         }}
@@ -219,7 +202,7 @@ export default function Mission04_Worm({ onSuccess }) {
             bg = 'linear-gradient(135deg, #E4F7EC, #B5E6C3)'
             borderColor = ACCENT
             shadowColor = 'rgba(76,184,108,0.5)'
-            scale = 1.03
+            scale = 1.04
           } else if (isVisited) {
             bg = 'linear-gradient(135deg, #F0FBF5, #D5EFE0)'
             borderColor = ACCENT
@@ -251,22 +234,22 @@ export default function Mission04_Worm({ onSuccess }) {
                 borderRadius: 14,
                 background: bg,
                 boxShadow: `0 6px 16px ${shadowColor}`,
-                padding: 'clamp(6px, 1.5vw, 16px) clamp(4px, 1vw, 12px)',
+                padding: 'clamp(8px, 2vw, 20px) clamp(4px, 1.5vw, 14px)',
                 textAlign: 'center',
                 fontFamily: 'inherit',
                 opacity,
                 transition: 'all 0.25s',
                 position: 'relative',
-                minHeight: 'clamp(90px, 14vh, 150px)',
+                minHeight: 'clamp(80px, 14vh, 150px)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 3,
+                gap: 4,
                 boxSizing: 'border-box',
-                overflow: 'hidden',
               }}
             >
+              {/* Метки СТАРТ / ФИНИШ — внутри ячейки */}
               {isStart && (
                 <div
                   style={{
@@ -306,22 +289,23 @@ export default function Mission04_Worm({ onSuccess }) {
                 </div>
               )}
 
-              <span style={{ fontSize: 'clamp(1.5rem, 6vw, 2.6rem)', lineHeight: 1 }}>
+              <span style={{ fontSize: 'clamp(1.5rem, 5vw, 2.8rem)', lineHeight: 1 }}>
                 {site.emoji}
               </span>
               <span
                 style={{
-                  fontSize: 'clamp(0.6rem, 2.2vw, 0.9rem)',
+                  fontSize: 'clamp(0.6rem, 2.2vw, 0.95rem)',
                   fontWeight: 700,
                   color: 'var(--text-dark)',
                   lineHeight: 1.15,
+                  wordBreak: 'break-word',
                 }}
               >
                 {site.label}
               </span>
               <span
                 style={{
-                  fontSize: 'clamp(0.5rem, 1.8vw, 0.75rem)',
+                  fontSize: 'clamp(0.45rem, 1.8vw, 0.75rem)',
                   color: 'var(--text-soft)',
                   fontFamily: 'monospace',
                   lineHeight: 1.1,
@@ -335,10 +319,12 @@ export default function Mission04_Worm({ onSuccess }) {
                 <div
                   style={{
                     position: 'absolute',
-                    top: -12, left: '50%',
+                    top: -10,
+                    left: '50%',
                     transform: 'translateX(-50%)',
-                    fontSize: 'clamp(1rem, 3vw, 1.4rem)',
+                    fontSize: 'clamp(1rem, 3vw, 1.5rem)',
                     filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))',
+                    zIndex: 3,
                   }}
                 >
                   🧒
@@ -349,14 +335,20 @@ export default function Mission04_Worm({ onSuccess }) {
                 <div
                   style={{
                     position: 'absolute',
-                    bottom: -8, right: -8,
-                    background: ACCENT, color: 'white',
+                    bottom: 4,
+                    right: 4,
+                    background: ACCENT,
+                    color: 'white',
                     borderRadius: '50%',
-                    width: 'clamp(20px, 5vw, 28px)',
-                    height: 'clamp(20px, 5vw, 28px)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: 'clamp(0.7rem, 2vw, 1rem)', fontWeight: 800,
+                    width: 'clamp(18px, 4vw, 28px)',
+                    height: 'clamp(18px, 4vw, 28px)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: 'clamp(0.7rem, 2vw, 1rem)',
+                    fontWeight: 800,
                     boxShadow: '0 4px 12px rgba(76,184,108,0.5)',
+                    zIndex: 2,
                   }}
                 >
                   ✓
@@ -366,14 +358,20 @@ export default function Mission04_Worm({ onSuccess }) {
                 <div
                   style={{
                     position: 'absolute',
-                    bottom: -8, right: -8,
-                    background: DANGER, color: 'white',
+                    bottom: 4,
+                    right: 4,
+                    background: DANGER,
+                    color: 'white',
                     borderRadius: '50%',
-                    width: 'clamp(20px, 5vw, 28px)',
-                    height: 'clamp(20px, 5vw, 28px)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: 'clamp(0.7rem, 2vw, 1rem)', fontWeight: 800,
+                    width: 'clamp(18px, 4vw, 28px)',
+                    height: 'clamp(18px, 4vw, 28px)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: 'clamp(0.7rem, 2vw, 1rem)',
+                    fontWeight: 800,
                     boxShadow: '0 4px 12px rgba(232,92,92,0.5)',
+                    zIndex: 2,
                   }}
                 >
                   ✗
@@ -384,8 +382,8 @@ export default function Mission04_Worm({ onSuccess }) {
         })}
       </div>
 
-      {/* Кнопки управления */}
-      <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center', marginTop: 4 }}>
+      {/* Кнопки */}
+      <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', justifyContent: 'center', marginTop: 4 }}>
         {finished === 'fail' && (
           <Button
             onClick={handleRetry}
@@ -422,7 +420,7 @@ function StatusPill({ color, icon, label }) {
         display: 'flex',
         alignItems: 'center',
         gap: 5,
-        fontSize: 'clamp(0.72rem, 2.5vw, 0.95rem)',
+        fontSize: 'clamp(0.7rem, 2.5vw, 1rem)',
         fontWeight: 700,
         color: 'var(--text-dark)',
         whiteSpace: 'nowrap',
