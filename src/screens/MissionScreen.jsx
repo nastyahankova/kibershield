@@ -492,11 +492,12 @@ export default function MissionScreen() {
           </motion.div>
         )}
 
-        {/* ===== СТАДИЯ 2: Игра ===== */}
+
         {/* ===== СТАДИЯ 2: Игра ===== */}
         {stage === 'game' && (
           <motion.div
             key="game"
+            data-mission
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -507,6 +508,9 @@ export default function MissionScreen() {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              padding: isMobile ? '0 4px' : 0,
+              boxSizing: 'border-box',
+              overflowX: 'hidden',
             }}
           >
             {/* Прогресс-бар — только в стадии игры */}

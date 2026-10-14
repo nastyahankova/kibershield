@@ -178,3 +178,25 @@ button {
   .screen { padding: 12px; }
   body { font-size: 14px; }
 }
+/* ============ МОБИЛЬНАЯ АДАПТАЦИЯ МИССИЙ ============ */
+@media (max-width: 900px) {
+  /* Все grid-контейнеры внутри миссий — одна колонка */
+  [data-mission] > * > [style*="grid-template-columns"],
+  [data-mission] [style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Двухколоночные контейнеры (flex) — вертикально */
+  [data-mission] [style*="flex-direction: row"] {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+
+  /* Все широкие блоки — не выходят за экран */
+  [data-mission] > * {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
