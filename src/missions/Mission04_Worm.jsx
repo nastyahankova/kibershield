@@ -6,7 +6,7 @@ import { useSound } from '../context/SoundContext.jsx'
 
 const grid = [
   { id: 1, name: 'school1-gorki.by',     label: 'Сайт школы',          emoji: '🏫', safe: true,  reason: 'Официальный сайт школы — безопасный.' },
-  { id: 2, name: 'brpo.by',              label: 'БРПО',                emoji: '🔥', safe: true,  reason: 'Официальный сайт БРПО — безопасный.' },
+  { id: 2, name: 'brpo.by',              label: 'ОО "БРПО"',                emoji: '🔥', safe: true,  reason: 'Официальный сайт ОО "БРПО" — безопасный.' },
   { id: 3, name: 'free-money.xyz',       label: 'Бесплатные деньги',   emoji: '💰', safe: false, reason: 'Незнакомый сайт с обещанием денег — мошенничество!' },
   { id: 4, name: 'kazino-24.top',        label: 'Казино 24',           emoji: '🎰', safe: false, reason: 'Игровые сайты для детей запрещены и опасны.' },
   { id: 5, name: 'edu.by',               label: 'Мин. образования',    emoji: '🎓', safe: true,  reason: 'Официальный образовательный портал.' },

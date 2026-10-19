@@ -8,7 +8,7 @@ import { useGame } from '../context/GameContext.jsx'
 const dialogues = [
   {
     speaker: 'Огонёк',
-    text: 'Привет! Я — Огонёк, талисман БРПО. А ты, я вижу, настоящий пионер!',
+    text: 'Привет! Я — Огонёк, талисман ОО "БРПО". А ты, я вижу, настоящий пионер!',
   },
   {
     speaker: 'Огонёк',
